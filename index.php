@@ -6,7 +6,7 @@ session_start();
 <head>
 	
 	<meta charset="utf-8">
-	<title>Pillayar Medi Clnic</title>
+	<title>New Pillayar Medi Clnic</title>
 	
 	<!-- The styles -->
 	<link id="bs-css" href="css/bootstrap-cerulean.css" rel="stylesheet">
