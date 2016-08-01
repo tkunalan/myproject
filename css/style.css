@@ -1,0 +1,420 @@
+
+/* ----menu-icon----*/
+
+.progress-striped .yellow{
+	background:#f0ad4e;
+} 
+.progress-striped .green{
+	background:#5cb85c;
+} 
+.progress-striped .light-blue{
+	background:#4F52BA;
+} 
+.progress-striped .red{
+	background:#d9534f;
+} 
+.progress-striped .blue{
+	background:#428bca;
+} 
+.progress-striped .orange {
+	background:#e94e02;
+}
+.progress-striped .bar {
+  background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  -webkit-background-size: 40px 40px;
+  -moz-background-size: 40px 40px;
+  -o-background-size: 40px 40px;
+  background-size: 40px 40px;
+}
+.progress.active .bar {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+  -moz-animation: progress-bar-stripes 2s linear infinite;
+  -ms-animation: progress-bar-stripes 2s linear infinite;
+  -o-animation: progress-bar-stripes 2s linear infinite;
+  animation: progress-bar-stripes 2s linear infinite;
+}
+@-webkit-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+@-moz-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+@-ms-keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+@-o-keyframes progress-bar-stripes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 40px 0;
+  }
+}
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+/*--Progress bars--*/
+/********* profile details **********/
+
+/*---//footer---*/
+/*---main-content-start---*/
+.widget {
+    width: 32%;
+    border: 1px solid #F5F1F1;
+    padding: 0px;
+    box-shadow: 0 -1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);
+}
+.widget.states-mdl {
+    margin: 0 2%;
+}
+.stats-left {
+    float: left;
+    width: 70%;
+    background-color: #4F52BA;
+	text-align: center;
+	padding: 1em;
+}
+.states-mdl .stats-left {
+    background-color: #585858;
+}
+.states-mdl .stats-right {
+    background-color: rgba(88, 88, 88, 0.88);
+}
+.states-last .stats-left {
+    background-color: #e94e02;
+}
+.states-last .stats-right {
+    background-color: rgba(233, 78, 2, 0.84);
+}
+.stats-right {
+    float: right;
+    width: 30%;
+    text-align: center;
+	padding: 1.54em 1em;
+	background-color: rgba(79, 82, 186, 0.88);
+}
+.stats-left h5 {
+    color: #fff;
+    font-size: 1em;
+}
+.stats-left h4 {
+    font-size: 2em;
+    color: #fff;
+    margin-top: 10px;
+}
+.stats-right label {
+    font-size: 2em;
+    color: #fff;
+}
+/*--charts--*/
+.charts,.row {
+    margin: 2em 0 0;
+}
+.charts-grids {
+    background-color: #fff;
+    padding:1em;
+}
+.charts-grids canvas#bar {
+    width: 100% !important;
+}
+.charts canvas#line {
+    width: 100% !important;
+}
+h4.title {
+    font-size: 1.1em;
+    color: #C1C1C1;
+    margin: 0.5em 0 1em;
+    text-transform: uppercase;
+}
+/*--//charts--*/
+.widget-shadow {
+    background-color: #fff;
+    box-shadow: 0 -1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);
+	-webkit-box-shadow: 0 -1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);
+	-moz-box-shadow: 0 -1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.24);
+}
+/*--statistics--*/
+.stats-info.widget {
+    padding: 1em;
+    background-color: #fff;
+}
+.stats-info ul li {
+    margin-bottom: 1em;
+    border-bottom: 1px solid #EFE9E9;
+    padding-bottom: 10px;
+    font-size: 0.9em;
+    color: #555;
+}
+.progress.progress-right {
+    width: 25%;
+    float: right;
+    height: 8px;
+    margin-bottom: 0;
+}
+.stats-info ul li.last {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0.5em;
+}
+.stats-info span.pull-right {
+    font-size: 0.7em;
+    margin-left: 11px;
+    line-height: 2em;
+}
+.stats-info.stats-last {
+    padding: 1.15em 1em;
+    width: 66%;
+    margin-left: 2%;
+}
+.table.stats-table {
+    margin-bottom: 0;
+}
+.stats-table span.label{
+    font-weight: 500;
+}
+.stats-table h5 {
+    color: #4F52BA;
+    font-size: 0.9em;
+}
+.stats-table h5.down {
+    color: #D81B60;
+}
+.stats-table h5 i.fa {
+    font-size: 1.2em;
+    font-weight: 800;
+    margin-left: 3px;
+}
+.stats-table thead tr th {
+    color: #555;
+}
+.stats-table td {
+    font-size: 0.9em;
+    color: #555;
+    padding: 11px !important;
+}
+
+/*--//map--*/
+/*--social-media--*/
+.social-media {
+    padding: 0;
+    margin-left: 2%;
+    width: 31.3%;
+}
+.wid-social {
+    display: inline-block;
+    width: 33.33%;
+    padding: 15px;
+    float: left;
+	text-align: center;
+}
+.facebook {
+  background-color:#3b5998 !important;
+  color: #ffffff !important;
+}
+.icon-xlg {
+    font-size: 30px;
+}
+.wid-social .social-info h3 {
+	color: rgba(255, 255, 255, 0.91);
+    font-weight: 800;
+    font-size: 1.5em;
+    margin: 0.3em 0;
+}
+.wid-social .social-info h4 {
+    margin: 0;
+    font-size: 0.8em;
+    color: #fff;
+    letter-spacing: 1px;
+}
+.twitter {
+  background-color:#55acee !important;
+  color: #ffffff !important;
+}
+.google-plus {
+  background-color: #dc4e41 !important;
+  color: #ffffff !important;
+}
+.dribbble {
+  background-color:#ea4c89 !important;
+  color: #ffffff !important;
+}
+.xing {
+  background-color: #cfdc00 !important;
+  color: #ffffff !important;
+}
+.vimeo {
+  background-color: #162221 !important;
+  color: #ffffff !important;
+}
+.yahoo {
+  background-color: #410093 !important;
+  color: #ffffff !important;
+}
+
+
+.chat-bottom {
+    padding: 1em;
+}
+.chat-bottom input[type="text"] {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #D4CFCF;
+    padding: 0.6em 1em;
+    outline: none;
+    transition: .5s all;
+    -webkit-transition: .5s all;
+    -moz-transition: .5s all;
+    box-shadow: 0px -1px 2px #CECECE;
+	-webkit-box-shadow: 0px -1px 2px #CECECE;
+	-moz-box-shadow: 0px -1px 2px #CECECE;
+}
+/*--//chat--*/
+
+
+.circle-charts {
+    padding: 3em 2em;
+}
+
+
+.chrt-page-grids canvas#line {
+    height: 310px !important;
+}
+.chrt-page-grids canvas#bar {
+    height: 292px !important;
+}
+.navbar-collapse.bs-example-js-navbar-scrollspy {
+    padding: 0;
+}
+.navbar-collapse.bs-example-js-navbar-scrollspy .nav > li > a {
+    padding: 15px 13px;
+}
+
+.chrt-page-grids canvas#line {
+    height: 282px !important;
+}
+.chrt-page-grids canvas#bar {
+    height: 265px !important;
+}
+}
+@media(max-width:1080px){
+.logo a {
+    padding: 0.9em 2.35em .7em;
+}
+.header-left {
+    width: 52%;
+}
+.cbp-spmenu-vertical {
+    width: 278px;
+}
+.cbp-spmenu-push div#page-wrapper {
+    margin:0 0 0 17.4em;
+	padding: 6.5em 1.5em 2em;
+}
+.sidebar ul li {
+    margin-bottom: 0.8em;
+}
+
+
+
+.profile-btm ul li {
+    width: 32.2%;
+}
+.wid-social {
+    width: 33.33%;
+    padding: 16px 8px;
+}
+.wid-social .social-info h4 {
+    font-size: 0.7em;
+    letter-spacing: 0.5px;
+}
+
+.header-right {
+    float: none;
+    width: 100%;
+    padding: 0;
+    margin-top: 1em;
+}
+.profile_details_drop a.dropdown-toggle {
+    padding: 0 3em 0 0;
+}
+.header-right span.badge {
+    font-size: 9px;
+    line-height: 13px;
+    width: 18px;
+    height: 17px;
+}
+.header-right i.fa{
+    font-size: .9em;
+	margin-right: 0.2em;
+}
+.progress {
+	height: 7px;
+    margin-bottom: 5px;
+}
+li.dropdown.head-dpdn {
+    padding: 1.2em 0;
+}
+li.dropdown.head-dpdn a.dropdown-toggle {
+    padding: 1.2em 2em 1.2em 1.5em;
+}
+.profile_details ul li ul.dropdown-menu.drp-mnu {
+    padding: 0.5em 1em;
+}
+ul.dropdown-menu.drp-mnu li {
+    padding: 6px 0;
+}
+
+.charts, .row {
+    margin: 1.3em 0 0;
+}
+.charts-grids canvas#pie {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0.9em 0;
+}
+
+.charts, .row {
+    margin: 1.1em 0 0;
+}
+.charts .charts-grids {
+    width: 100%;
+    padding: 1em 2em;
+}
+.charts-grids canvas#bar,.charts canvas#line {
+    height: 215px !important;
+}
+.charts-grids.states-mdl {
+    margin: 4% 0;
+}
+.charts-grids canvas#pie {
+    width: 73% !important;
+    margin: 0 auto;
+}
+
+
+}
+/*--//responsive-design---*/
