@@ -319,7 +319,7 @@ h4.title {
 .chrt-page-grids canvas#bar {
     height: 265px !important;
 }
-}
+
 @media(max-width:1080px){
 .logo a {
     padding: 0.9em 2.35em .7em;
