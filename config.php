@@ -1,15 +1,14 @@
 <?php
   $host='localhost';//localhostname
   $uname='root';//username
-  $pass='root';//password
+  $pass='';//password
   
-  $connection= mysql_connect($host, $uname, $pass);
+  $connection= mysqli_connect($host, $uname, $pass)or die("cannot connect"); ;
   
   if (!$connection) {
      die ("A connection to the server could not be established!"); 
   }
-  
-  $result=mysql_select_db ("eldershome");//select database
+    $result=mysqli_select_db($connection,"eldershome")or die("cannot select DB");//select database
   
   if (! $result) {
      die ("database could not be selected");
