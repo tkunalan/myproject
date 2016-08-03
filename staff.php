@@ -285,8 +285,8 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="staffedit")
 		{
 			$sql1 ="SELECT * FROM staff WHERE user_id='$sid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			global $userid;
 			$userid=$row['user_id'];
 			?>
@@ -425,8 +425,8 @@ function deleteconfirm() // make alert for delete elders details
                    <?php
 				    $branch_id=$_SESSION['branch_id'];
 		  		$sql3 ="SELECT * FROM branch WHERE branch_id='$branch_id'";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          		$row3=mysql_fetch_assoc($result3)
+				$result3=mysqli_query($connection,$sql3) or die ("mysql.error:".mysqli_error());
+          		$row3=mysqli_fetch_assoc($result3)
           ?>
           <div class="control-group">
             <label class="control-label" for="typeahead">Branch Name</label>
@@ -474,8 +474,8 @@ function deleteconfirm() // make alert for delete elders details
           
                <?php 
 		  		$sql4 ="SELECT * FROM user WHERE user_id='$sid'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4)
+				$result4=mysqli_query($connection,$sql4) or die ("mysql.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4)
           		
           ?>
           
@@ -939,14 +939,14 @@ elseif(($_GET['option']=="view"))
 									
 								}
 								
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$bid=$row['branch_id'];
 									$sql9 = "SELECT * FROM staff WHERE staff_designation  = '$row[staff_designation]'";
 
-									$result9 = mysql_query($sql9) or die('Query failed. ' . mysql_error());
-									$row9 = mysql_fetch_assoc($result9);
+									$result9 = mysqli_query($connection,$sql9) or die('Query failed. ' . mysqli_error());
+									$row9 = mysqli_fetch_assoc($result9);
 									if($row9['staff_designation']=="Delete")
 									{
 										
@@ -957,8 +957,8 @@ elseif(($_GET['option']=="view"))
 							?>
 							<tr><td class="center" align="center"><?php echo $row['user_id']; ?></td><td class="center" align="center"><?php echo $row['name']; ?></td><td class="center" align="center"><?php echo $row['staff_designation']; ?></td><td class="center" align="center"><?php 
 								$sql3="SELECT * FROM branch WHERE branch_id='$bid'";
-								$result3=mysql_query($sql3);
-								$row3=mysql_fetch_assoc($result3);
+								$result3=mysqli_query($connection,$sql3);
+								$row3=mysqli_fetch_assoc($result3);
 								$bname=$row3['branch_name'];
 							echo $bname; ?></td>
                              <?php
