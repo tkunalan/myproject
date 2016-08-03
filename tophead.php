@@ -67,8 +67,8 @@ function goback()
 						if($type=="sponsor")
 						{
 							$sql="SELECT * FROM sponsor WHERE user_id='$userId'";
-						$result=mysql_query($sql);
-						$row=mysql_fetch_assoc($result);
+						$result=mysqli_query($connection,$sql);
+						$row=mysqli_fetch_assoc($result);
 						$nam=$row['name'];
 						$snam=substr($nam, 0, 8);
 						?>
@@ -79,14 +79,14 @@ function goback()
 						else
 						{
 						$sql="SELECT * FROM staff WHERE user_id='$userId'";
-						$result=mysql_query($sql);
-						$row=mysql_fetch_assoc($result);
+						$result=mysqli_query($connection,$sql);
+						$row=mysqli_fetch_assoc($result);
 						$name=$row['name'];
 						$sname=substr($name, 0, 6);
 						
 						$sql1="SELECT branch_name FROM branch WHERE branch_id='$row[branch_id]'";
-						$result1=mysql_query($sql1);
-						$row1=mysql_fetch_assoc($result1);
+						$result1=mysqli_query($connection,$sql1);
+						$row1=mysqli_fetch_assoc($result1);
 						?>
 				<?php	echo "<img width='40' height='40' src='photos/". $row['photo']."'>" ;?><span class="hidden-phone"></span> <?php echo $sname; echo "(";echo $row1['branch_name']; echo ")"." / ".$type; ?></span>
 						

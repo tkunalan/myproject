@@ -32,18 +32,18 @@
 		
 		$uid=$_POST['txt_userid'];
 		$sql5="SELECT *  FROM staff WHERE name='$uid' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 		$date=date("Y-m-d", strtotime($_POST['txt_date']));
 		$sql2 = "INSERT INTO news(news_id,news,date,photo,user_id) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_newsid'])."',
-						'".mysql_real_escape_string($_POST['txt_news'])."',
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($_FILES["img_photo"]["name"])."',
-						'".mysql_real_escape_string($_POST['txt_userid'])."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_newsid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_news'])."',
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$_FILES["img_photo"]["name"])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_userid'])."'
 						)";
-		$result2=mysql_query($sql2) or die("Error in sql2 ".mysql_error());
+		$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
 						
 						
 						if($result2)
@@ -112,8 +112,8 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="newsview")
 		{
 			$sql1 ="SELECT * FROM news WHERE news_id='$nid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -158,8 +158,8 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="newsedit")
 		{
 			$sql1 ="SELECT * FROM news WHERE news_id='$nid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			?>
 
@@ -213,7 +213,7 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="newsdelete")
 		{
 			$sql2="DELETE FROM news  WHERE news_id='$nid'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 			
 		}
 		//news delete end
@@ -229,10 +229,10 @@ function deleteconfirm() // make alert for delete elders details
 		{
 			include ("config.php");
 			$sql1 ="SELECT news_id FROM news ORDER BY news_id  ASC";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			if(mysql_num_rows($result)>0)
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			if(mysqli_num_rows($result)>0)
 			{
-				while($row=mysql_fetch_assoc($result))
+				while($row=mysqli_fetch_assoc($result))
 				{
 					$nid=$row['news_id'];
 				}
@@ -305,8 +305,8 @@ function deleteconfirm() // make alert for delete elders details
           <?php 
 		   $name=$_SESSION['username'];
 		  $sql5="SELECT *  FROM staff  ";
-		$result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-      $row5=mysql_fetch_assoc($result5);
+		$result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+      $row5=mysqli_fetch_assoc($result5);
 	  ?>
           
           

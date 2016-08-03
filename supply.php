@@ -1005,13 +1005,13 @@ elseif(($_GET['option']=="view"))
 									$sql2="SELECT * FROM supply WHERE user_id='$name' AND month(date)='$month' AND year(date)='$year' ";
 								}
 								
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$sid=$row['supply_id'];
 									$sql5="SELECT *  FROM staff WHERE user_id='$row[user_id]' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysql.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 		                            
 							?>
 							<tr><td class="center"><?php echo $row['supply_id']; ?></td><td class="center"><?php echo $row['purchase_id']; ?></td><td class="center"><?php echo $row5['name']; ?></td><td class="center"><?php echo $row['home_no']; ?></td><td class="center"><?php echo $row['ward_no']; ?></td><td class="center"><?php echo $row['date']; ?></td>

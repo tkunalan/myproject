@@ -111,8 +111,8 @@ elseif($usertype=="doctor")
 
 
 $sql1="SELECT * FROM staff WHERE user_id='$username'";
-		$result=mysql_query($sql1) or die("Error in mysql:".mysql_error());
-		$row=mysql_fetch_assoc($result);
+		$result=mysqli_query($connection,$sql1) or die("Error in mysqli:".mysqli_error());
+		$row=mysqli_fetch_assoc($result);
 		
 		if(isset($_POST['editsubmit']))
 		{

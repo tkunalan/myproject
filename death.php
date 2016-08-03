@@ -50,23 +50,23 @@
 		
 		$sql= "INSERT INTO death(admission_no,date,death_certificate,reason) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_admission'])."',
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($_FILES["img_photo"]["name"])."',
-						'".mysql_real_escape_string($_POST['txt_reason'])."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_admission'])."',
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$_FILES["img_photo"]["name"])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_reason'])."'
 						
 						)";
 		
 		$sql1="UPDATE elders SET
 		                    
-						    status='".mysql_real_escape_string('Death')."'						
+						    status='".mysqli_real_escape_string('Death')."'						
 													
 						WHERE admission_no='$aid'";
 			
 			
-			$result1=mysql_query($sql1);
+			$result1=mysqli_query($connection,$sql1);
 							
-				$result=mysql_query($sql) or die("Error in sql ".mysql_error());
+				$result=mysqli_query($connection,$sql) or die("Error in sql ".mysqli_error());
 					if($result && $result1)
 						{
 							
@@ -76,7 +76,7 @@
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 	
 	}
@@ -87,20 +87,20 @@
 		
 		$aid=$_POST['txt_admission'];     
 		$sql2 ="SELECT * FROM elders WHERE name='$aid'";
-			$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-			$row2=mysql_fetch_assoc($result2);
+			$result2=mysqli_query($connection,$sql2) or die ("mysql.error:".mysqli_error());
+			$row2=mysqli_fetch_assoc($result2);
 		
 		
 		$sql="UPDATE death SET
-		                    admission_no='".mysql_real_escape_string($row2['admission_no'])."', 
-		                    date='".mysql_real_escape_string($_POST['txt_date'])."',
-							death_certificate='".mysql_real_escape_string($_POST['img_photo'])."',
-						    reason='".mysql_real_escape_string($_POST['txt_reason'])."'
+		                    admission_no='".mysqli_real_escape_string($connection,$row2['admission_no'])."', 
+		                    date='".mysqli_real_escape_string($connection,$_POST['txt_date'])."',
+							death_certificate='".mysqli_real_escape_string($connection,$_POST['img_photo'])."',
+						    reason='".mysqli_real_escape_string($connection,$_POST['txt_reason'])."'
 							
 							
 													
 						WHERE admission_no='$row2[admission_no]'";
-			$result=mysql_query($sql);
+			$result=mysqli_query($sql);
 		
 			
 										
@@ -150,12 +150,12 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="deathview")
 		{
 			$sql1 ="SELECT * FROM death WHERE admission_no='$aid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			$sql2 ="SELECT * FROM elders WHERE admission_no='$aid'";
-			$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-			$row2=mysql_fetch_assoc($result2);
+			$result2=mysqli_query($connection,$sql2) or die ("mysqli.error:".mysqli_error());
+			$row2=mysqli_fetch_assoc($result2);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -197,12 +197,12 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="deathedit")
 		{
 			$sql1 ="SELECT * FROM death WHERE admission_no='$aid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
 			$row=mysql_fetch_assoc($result);
 			
 			$sql2 ="SELECT * FROM elders WHERE admission_no='$aid'";
-			$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-			$row2=mysql_fetch_assoc($result2);
+			$result2=mysqli_query($connection,$sql2) or die ("mysql.error:".mysqli_error());
+			$row2=mysqli_fetch_assoc($result2);
 			
 			?>
 
@@ -276,16 +276,16 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="deathdelete")
 		{
 			$sql2="DELETE FROM death  WHERE admission_no='$aid'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysql :".mysqli_error());
 			
 			$sql1="UPDATE elders SET
 		                    
-						    status='".mysql_real_escape_string('Live')."'						
+						    status='".mysqli_real_escape_string('Live')."'						
 													
 						WHERE admission_no='$aid'";
 			
 			
-			$result1=mysql_query($sql1);
+			$result1=mysqli_query($connection,$sql1);
 			
 		}
 		//death delete end
@@ -337,14 +337,14 @@ function deleteconfirm() // make alert for delete elders details
 										 echo "<option></option>";
 								
 										$sql5="SELECT *  FROM elders WHERE branch_id='$branch_id' AND status='Live'";
-				                          $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                          $result5=mysqli_query($connection,$sql5) or die ("mysql.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										 do
 										 {
 										 	
 												echo "<option value=".$row5['admission_no'].">".$row5['name']."</option>";
 											}
-											while($row5=mysql_fetch_assoc($result5));
+											while($row5=mysqli_fetch_assoc($result5));
 									echo "</select>";
 									?>
             </div>
@@ -446,12 +446,12 @@ elseif(($_GET['option']=="view"))
 								{
 									$sql2="SELECT * FROM death";
 								
-									$result=mysql_query($sql2);
-									while($row=mysql_fetch_assoc($result))
+									$result=mysqli_query($connection,$sql2);
+									while($row=mysqli_fetch_assoc($result))
 									{						
 									$sql3 ="SELECT * FROM elders WHERE admission_no='$row[admission_no]'";
-									$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-									$row3=mysql_fetch_assoc($result3);                       
+									$result3=mysqli_query($connection,$sql3) or die ("mysql.error:".mysqli_error());
+									$row3=mysqli_fetch_assoc($result3);                       
 									?>
 									<tr><td class="center"><?php echo $row3['name']; ?></td><td class="center"><?php echo $row['date']; ?></td><td class="center"><?php echo $row['reason']; ?></td><td class="center"><a class="btn btn-success"   href="<?php echo $viewpage; ?>&status=deathview&aid=<?php echo $row['admission_no']; ?>">
 										<i class="icon-zoom-in icon-white"></i>  
@@ -467,14 +467,14 @@ elseif(($_GET['option']=="view"))
 								else
 								{
 									$sql2="SELECT * FROM elders WHERE branch_id='$branch_id'";					
-									$result=mysql_query($sql2);
-									while($row=mysql_fetch_assoc($result))
+									$result=mysqli_query($sql2);
+									while($row=mysqli_fetch_assoc($result))
 									{			
 									$sql3 ="SELECT * FROM death WHERE admission_no='$row[admission_no]'";
-									$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-									$row3=mysql_fetch_assoc($result3);
+									$result3=mysqli_query($connection,$sql3) or die ("mysql.error:".mysqli_error());
+									$row3=mysqli_fetch_assoc($result3);
 			              
-											if(mysql_num_rows($result3)==0)
+											if(mysqli_num_rows($result3)==0)
 												{
 											 
 												}

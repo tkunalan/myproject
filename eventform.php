@@ -94,14 +94,14 @@ if(isset($_GET['st1']))
 			$datesel = $_GET['wt1'];
 			$dateselect=date("Y-m-d",strtotime($datesel));
 			$sql6="SELECT *  FROM branch WHERE branch_name='$branchselect' ";
-			$result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          	$row6=mysql_fetch_assoc($result6);
+			$result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+          	$row6=mysqli_fetch_assoc($result6);
 			if($eventselect=="Function")
 			{
 				$sql5="SELECT *  FROM event WHERE branch_id='$row6[branch_id]' AND date='$dateselect' AND event_type='Function'";
-				$result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		$row5=mysql_fetch_assoc($result5);
-				if(mysql_num_rows($result5)==0)
+				$result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		$row5=mysqli_fetch_assoc($result5);
+				if(mysqli_num_rows($result5)==0)
 				{
 					
 				}
@@ -118,18 +118,18 @@ if(isset($_POST['save']))
 		$date=date("Y-m-d", strtotime($_POST['txt_evtdate']));
 		$user_id=$_POST['txt_userid'];
 				$sql5="SELECT *  FROM sponsor WHERE name='$user_id'";
-				$result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		$row5=mysql_fetch_assoc($result5);
+				$result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		$row5=mysqli_fetch_assoc($result5);
 		
 		$sql= "INSERT INTO event(event_id,user_id,branch_id,event_type,date,event,remarks) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_eventid'])."',
-						'".mysql_real_escape_string($row5['user_id'])."',
-						'".mysql_real_escape_string($_POST['txt_branchid'])."',
-						'".mysql_real_escape_string($_POST['txt_eventtype'])."',
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($_POST['txt_event'])."',
-						'".mysql_real_escape_string($_POST['txt_remarks'])."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_eventid'])."',
+						'".mysqli_real_escape_string($connection,$row5['user_id'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_branchid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_eventtype'])."',
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_event'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_remarks'])."'
 						)";
 		
 	
@@ -174,10 +174,10 @@ if($_GET['option']=="new")
 		{
 			include ("config.php");
 			$sql1 ="SELECT event_id FROM event ORDER BY event_id ASC";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			if(mysql_num_rows($result)>0)
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			if(mysqli_num_rows($result)>0)
 			{
-				while($row=mysql_fetch_assoc($result))
+				while($row=mysqli_fetch_assoc($result))
 				{
 					$e_No=$row['event_id'];
 				}
@@ -209,8 +209,8 @@ if($_GET['option']=="new")
 		  
 		  $name=$_SESSION['username'];
       		  $sql2 ="SELECT *FROM sponsor WHERE user_id='$name'";
-				$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-				$row2=mysql_fetch_assoc($result2);
+				$result2=mysqli_query($connection,$sql2) or die ("mysqli.error:".mysqli_error());
+				$row2=mysqli_fetch_assoc($result2);
 				$name=$row2['name'];
               
               ?>
@@ -227,8 +227,8 @@ if($_GET['option']=="new")
 		  
 		 // $branch_id=$_SESSION['branch_id'];
       		  $sql3 ="SELECT  branch_name, branch_id FROM branch";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-				$row3=mysql_fetch_assoc($result3);
+				$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
+				$row3=mysqli_fetch_assoc($result3);
 				//$barnchid=$row2['branch_id'];
               
               ?>

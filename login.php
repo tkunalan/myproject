@@ -39,20 +39,20 @@ function password()
 	
 		$sql1 = "SELECT * FROM user WHERE user_id  = '$userId' AND password = '$password'";//connect with user table userid and password
 
-		$result = mysql_query($sql1) or die('Query failed. ' . mysql_error());
+		$result = mysqli_query($connection,$sql1) or die('Query failed. ' . mysqli_error());
 		$sql2 = "SELECT * FROM user WHERE user_id  = '$userId'";
 		
 
-		$result2 = mysql_query($sql2) or die('Query failed. ' . mysql_error());
-	$row2 = mysql_fetch_assoc($result2);
-		if (mysql_num_rows($result) == 1) 
+		$result2 = mysqli_query($connection,$sql2) or die('Query failed. ' . mysqli_error());
+	$row2 = mysqli_fetch_assoc($result2);
+		if (mysqli_num_rows($result) == 1) 
 		{
-			$row = mysql_fetch_assoc( $result );
+			$row = mysqli_fetch_assoc( $result );
 			$type=$row['usertype'];
 			$_SESSION['username']=$userId;//get username to session
 			$_SESSION['usertype']=$type;//get usertype tosession
 			$sql2 = "UPDATE user SET attempts=0 WHERE user_id='$userId'";
-						$result2=mysql_query($sql2) or die("Error in sql2".mysql_error());
+						$result2=mysqli_query($connection,$sql2) or die("Error in sql2".mysqli_error());
 			$sql="SELECT branch_id FROM staff WHERE user_id='$userId'";
 			$result=mysql_query($sql);
 			$row=mysql_fetch_assoc($result);
@@ -107,7 +107,7 @@ function password()
 		{
 			$msg="<font color=#FF0000>Your username or Password incorrect, Please try again</font>";
 			$sql2 = "UPDATE user SET attempts=attempts+1 WHERE user_id='$userId'";
-						$result2=mysql_query($sql2) or die("Error in sql2".mysql_error());
+						$result2=mysqli_query($connection,$sql2) or die("Error in sql2".mysqli_error());
 		}
 	}
 	?>

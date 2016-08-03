@@ -110,23 +110,23 @@ function password()
 	{
 		$sid=$_POST['txt_staffid'];
 		$sql="UPDATE staff SET 
-							title='".mysql_real_escape_string($_POST['txt_title'])."',
-							name='".mysql_real_escape_string($_POST['txt_name'])."',
-							staff_designation='".mysql_real_escape_string($_POST['txt_designation'])."',
-						        address=	'".mysql_real_escape_string($_POST['txt_address'])."',
-						      contact_no='".mysql_real_escape_string($_POST['txt_contactno'])."',
-						          nic_no='".mysql_real_escape_string($_POST['txt_nicno'])."',
-						      email_id='".mysql_real_escape_string($_POST['txt_email'])."',
-						           dob='".mysql_real_escape_string($_POST['txt_dob'])."',
-						basic_salary='".mysql_real_escape_string($_POST['txt_bsalary'])."',
-						photo='".mysql_real_escape_string($_POST['img_photo'])."'
+							title='".mysqli_real_escape_string($connection,$_POST['txt_title'])."',
+							name='".mysqli_real_escape_string($connection,$_POST['txt_name'])."',
+							staff_designation='".mysqli_real_escape_string($connection,$_POST['txt_designation'])."',
+						        address=	'".mysqli_real_escape_string($connection,$_POST['txt_address'])."',
+						      contact_no='".mysqli_real_escape_string($connection,$_POST['txt_contactno'])."',
+						          nic_no='".mysqli_real_escape_string($connection,$_POST['txt_nicno'])."',
+						      email_id='".mysqli_real_escape_string($connection,$_POST['txt_email'])."',
+						           dob='".mysqli_real_escape_string($connection,$_POST['txt_dob'])."',
+						basic_salary='".mysqli_real_escape_string($connection,$_POST['txt_bsalary'])."',
+						photo='".mysqli_real_escape_string($connection,$_POST['img_photo'])."'
 						WHERE user_id='$sid'";
-			$result=mysql_query($sql);
+			$result=mysqli_query($connection,$sql);
 			$sql1="UPDATE user SET 
-							password='".mysql_real_escape_string($_POST['txt_pass'])."',
-							usertype='".mysql_real_escape_string($_POST['txt_usertype'])."'
+							password='".mysqli_real_escape_string($connection,$_POST['txt_pass'])."',
+							usertype='".mysqli_real_escape_string($connection,$_POST['txt_usertype'])."'
 						WHERE user_id='$sid'";
-			$result=mysql_query($sql1);
+			$result=mysqli_query($connection,$sql1);
 										
 	}
 				
@@ -192,8 +192,8 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="staffview")
 		{
 			$sql1 ="SELECT * FROM staff WHERE user_id='$sid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -233,8 +233,8 @@ function deleteconfirm() // make alert for delete elders details
                         <tr><td>Branch</td><td><?php 
 										$bid=$row['branch_id'];
 										$sql2 ="SELECT branch_name FROM branch WHERE branch_id='$bid'";
-										$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-										$row2=mysql_fetch_assoc($result2);
+										$result2=mysqli_query($connection,$sql2) or die ("mysql.error:".mysqli_error());
+										$row2=mysqli_fetch_assoc($result2);
 						
 										echo $row2['branch_name']; ?></td></tr>
                         <tr><td>Basic Salary</td><td><?php echo $row['basic_salary']; ?></td>
@@ -242,8 +242,8 @@ function deleteconfirm() // make alert for delete elders details
                         
                         <?php 
 		  		$sql4 ="SELECT * FROM user WHERE user_id='$sid'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4)
+				$result4=mysqli_query($connection,$sql4) or die ("mysql.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4)
           		
           ?>
           
@@ -561,7 +561,7 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="staffdelete")
 		{
 			$sql2= "UPDATE staff SET staff_designation='Delete' WHERE user_id='$sid'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());			
+			$result=mysqli_query($connection,$sql2) or die("Error in mysql :".mysqli_error());			
 		}
 		//staff delete end
 	}

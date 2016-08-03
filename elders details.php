@@ -161,8 +161,8 @@ $utype=$_SESSION['usertype'];
 		else //if user type is manager/clerk select the baranch id for their branch name
 		{
 			$sql8 ="SELECT *  FROM branch WHERE branch_name='$_POST[txt_branchid]'";
-				$result8=mysql_query($sql8) or die ("mysql.error:".mysql_error());
-				$row8=mysql_fetch_assoc($result8);
+				$result8=mysqli_query($connection,$sql8) or die ("mysqli.error:".mysqli_error());
+				$row8=mysqli_fetch_assoc($result8);
 				$barnchid=$row8['branch_id'];
 		}
 		//file (elder's photo) upload start
@@ -184,35 +184,35 @@ $utype=$_SESSION['usertype'];
 		$date1=date("Y-m-d", strtotime($_POST['txt_doj']));//convert the date to date format of database
 		$sql2 = "INSERT INTO guardian(admission_no,name,contact_no,address) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_admission'])."',
-						'".mysql_real_escape_string($_POST['txt_name1'])."',
-						'".mysql_real_escape_string($_POST['txt_contactno'])."',
-						'".mysql_real_escape_string($_POST['txt_address1'])."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_admission'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_name1'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_contactno'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_address1'])."'
 						)";
 		
 		
 		
 		$sql = "INSERT INTO elders(admission_no,name,address,dob,joint_date,photo,location,home_no,gender,ward_no, status,religion,bed_no,branch_id)
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_admission'])."',
-						'".mysql_real_escape_string($_POST['txt_name'])."',
-						'".mysql_real_escape_string($_POST['txt_address'])."',
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($date1)."',
-						'".mysql_real_escape_string($_FILES["img_photo"]["name"])."',
-						'".mysql_real_escape_string($_POST['txt_location'])."',
-						'".mysql_real_escape_string($_POST['txt_homeno'])."',
-						'".mysql_real_escape_string($_POST['txt_gender'])."',
-						'".mysql_real_escape_string($_POST['txt_wardno'])."',
-						'".mysql_real_escape_string($_POST['txt_status'])."',
-						'".mysql_real_escape_string($_POST['txt_religion'])."',
-						'".mysql_real_escape_string($_POST['txt_bedno'])."',
-						'".mysql_real_escape_string($barnchid)."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_admission'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_name'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_address'])."',
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$date1)."',
+						'".mysqli_real_escape_string($connection,$_FILES["img_photo"]["name"])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_location'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_homeno'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_gender'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_wardno'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_status'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_religion'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_bedno'])."',
+						'".mysqli_real_escape_string($connection,$barnchid)."'
 						)";
 						
-				$result2=mysql_query($sql2) or die("Error in sql2 ".mysql_error());
+				$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
 						
-				$result=mysql_query($sql) or die("Error in sql ".mysql_error());
+				$result=mysqli_query($connection,$sql) or die("Error in sql ".mysqli_error());
 					if($result and $result2)//if successful go to view page
 						{
 								echo '<p align="center"><center><img border="0" src="photos/sucess.jpg" width="100" height="50"></center></p>';
@@ -221,7 +221,7 @@ $utype=$_SESSION['usertype'];
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 	}
 		
@@ -235,31 +235,31 @@ $utype=$_SESSION['usertype'];
 		$adm=$_POST['txt_admission'];
 		$branch=$_POST['txt_branchid'];
 		$sql3 ="SELECT * FROM branch WHERE branch_name='$branch'";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-				$row3=mysql_fetch_assoc($result3);
+				$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
+				$row3=mysqli_fetch_assoc($result3);
 		$sql="UPDATE elders SET 
-							name='".mysql_real_escape_string($_POST['txt_name'])."',
-							address=	'".mysql_real_escape_string($_POST['txt_address'])."',
-							 dob='".mysql_real_escape_string($_POST['txt_dob'])."',
-							 joint_date='".mysql_real_escape_string($_POST['txt_doj'])."',
-							photo='".mysql_real_escape_string($_POST['img_photo'])."',
-							location='".mysql_real_escape_string($_POST['txt_location'])."',
-							home_no='".mysql_real_escape_string($_POST['txt_homeno'])."',
-						    gender= '".mysql_real_escape_string($_POST['txt_gender'])."',
-						ward_no='".mysql_real_escape_string($_POST['txt_wardno'])."',
-						status='".mysql_real_escape_string($_POST['txt_status'])."',
-						religion='".mysql_real_escape_string($_POST['txt_religion'])."',
-						bed_no='".mysql_real_escape_string($_POST['txt_bedno'])."',
-						branch_id='".mysql_real_escape_string($row3['branch_id'])."'
+							name='".mysqli_real_escape_string($connection,$_POST['txt_name'])."',
+							address=	'".mysqli_real_escape_string($connection,$_POST['txt_address'])."',
+							 dob='".mysqli_real_escape_string($connection,$_POST['txt_dob'])."',
+							 joint_date='".mysqli_real_escape_string($connection,$_POST['txt_doj'])."',
+							photo='".mysqli_real_escape_string($connection,$_POST['img_photo'])."',
+							location='".mysqli_real_escape_string($connection,$_POST['txt_location'])."',
+							home_no='".mysqli_real_escape_string($connection,$_POST['txt_homeno'])."',
+						    gender= '".mysqli_real_escape_string($connection,$_POST['txt_gender'])."',
+						ward_no='".mysqli_real_escape_string($connection,$_POST['txt_wardno'])."',
+						status='".mysqli_real_escape_string($connection,$_POST['txt_status'])."',
+						religion='".mysqli_real_escape_string($connection,$_POST['txt_religion'])."',
+						bed_no='".mysqli_real_escape_string($connection,$_POST['txt_bedno'])."',
+						branch_id='".mysqli_real_escape_string($connection,$row3['branch_id'])."'
 						
 						WHERE admission_no='$adm'";
-			$result=mysql_query($sql);
+			$result=mysqli_query($connection,$sql);
 			$sql1="UPDATE guardian SET 
-							name='".mysql_real_escape_string($_POST['txt_name1'])."',
-						contact_no='".mysql_real_escape_string($_POST['txt_contactno'])."',
-						address='".mysql_real_escape_string($_POST['txt_address1'])."'
+							name='".mysqli_real_escape_string($connection,$_POST['txt_name1'])."',
+						contact_no='".mysqli_real_escape_string($connection,$_POST['txt_contactno'])."',
+						address='".mysqli_real_escape_string($connection,$_POST['txt_address1'])."'
 						WHERE admission_no='$adm'";
-			$result=mysql_query($sql1);
+			$result=mysqli_query($connection,$sql1);
 										
 	}
 	?>
@@ -315,8 +315,8 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="eldersview")//the coding start for elders view
 		{
 			$sql1 ="SELECT * FROM elders WHERE admission_no='$adm'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -361,16 +361,16 @@ function deleteconfirm() // make alert for delete elders details
                         <tr><td>Branch Name</td><td><?php 
 										$bid=$row['branch_id'];
 										$sql2 ="SELECT branch_name FROM branch WHERE branch_id='$bid'";
-										$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-										$row2=mysql_fetch_assoc($result2);
+										$result2=mysqli_query($connection,$sql2) or die ("mysqli.error:".mysqli_error());
+										$row2=mysqli_fetch_assoc($result2);
 						
 										echo $row2['branch_name']; ?></td></tr>
                         
                         
                         <?php 
 		  		$sql4 ="SELECT * FROM guardian WHERE admission_no='$adm'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4)
+				$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4)
           		
           ?>
              <tr><td> <h4><i class="icon-edit"></i>Guardian Details </h4><br></td></tr>
@@ -419,8 +419,8 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="eldersedit")
 		{
 			$sql1 ="SELECT * FROM elders WHERE admission_no='$adm'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			global $adm;
 			$adm=$row['admission_no'];
 			?>
@@ -577,8 +577,8 @@ function deleteconfirm() // make alert for delete elders details
            <?php
 				    //$branch_id=$_SESSION['branch_id'];
 		  		$sql3 ="SELECT * FROM branch WHERE branch_id='$row[branch_id]'";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-				$row3=mysql_fetch_assoc($result3);	
+				$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
+				$row3=mysqli_fetch_assoc($result3);	
           		
           ?>
           <div class="control-group">
@@ -586,7 +586,7 @@ function deleteconfirm() // make alert for delete elders details
             <div class="controls">
           <!--    <select required name="txt_branchid" id="txt_branchid" class="input-xlarge focused" data-rel="chosen">
                                 <?php 
-								/*	while($row3=mysql_fetch_assoc($result3))
+								/*	while($row3=mysqli_fetch_assoc($result3))
 									{
 										if ($row['branch_id']==$row3['branch_id'])
 										{
@@ -606,8 +606,8 @@ function deleteconfirm() // make alert for delete elders details
           </div>
             <?php 
 		  		$sql4 ="SELECT * FROM  guardian WHERE admission_no='$adm'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4)
+				$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4)
           		
           ?>
         
@@ -663,7 +663,7 @@ function deleteconfirm() // make alert for delete elders details
 		{
 			
 				$sql2="DELETE FROM guardian  WHERE admission_no='$adm'";
-				$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+				$result=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 			
 			
 		}
@@ -682,10 +682,10 @@ function deleteconfirm() // make alert for delete elders details
 		{//auto adm no
 			include ("config.php");
 			$sql1 ="SELECT admission_no FROM elders ORDER BY admission_no ASC";//select admission no fromelders table and order
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			if(mysql_num_rows($result)>0)
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			if(mysqli_num_rows($result)>0)
 			{
-				while($row=mysql_fetch_assoc($result))
+				while($row=mysqli_fetch_assoc($result))
 				{
 					$admno=$row['admission_no'];
 				}
@@ -721,7 +721,7 @@ function deleteconfirm() // make alert for delete elders details
           		   
                      <?php 
 		  		$sql3 ="SELECT *  FROM branch";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
+				$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
           		
           ?>
           <div class="control-group">
@@ -733,8 +733,8 @@ function deleteconfirm() // make alert for delete elders details
 				{
 					$branch_id=$_SESSION['branch_id'];
 					$sql4 ="SELECT *  FROM branch WHERE branch_id='$branch_id'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4);
 					?>
 	 <input type="text" name="txt_branchid" class="input-large focused" id="txt_branchid" readonly value="<?php echo $row4['branch_name'];?>">
 			<?php
@@ -762,7 +762,7 @@ function deleteconfirm() // make alert for delete elders details
 												echo "<option value=".$row['branch_id'].">".$row['branch_name']."</option>";
 											 }
 									}
-									while($row=mysql_fetch_assoc($result3));
+									while($row=mysqli_fetch_assoc($result3));
 									?>										
 								<?php									
 								echo "</select>";
@@ -787,13 +787,13 @@ function deleteconfirm() // make alert for delete elders details
 				else
 				{
 					$sql7 ="SELECT *  FROM branch WHERE branch_name='$branchselect'";
-					$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-					$row7=mysql_fetch_assoc($result7);
+					$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+					$row7=mysqli_fetch_assoc($result7);
 					$branch_id=$row7["branch_id"];
 				}
 									$sql5 ="SELECT DISTINCT home_no  FROM ward WHERE branch_id='$branch_id'";
-									$result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-									$row5=mysql_fetch_assoc($result5);
+									$result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+									$row5=mysqli_fetch_assoc($result5);
 									if($_SESSION['usertype']=="manager"||$_SESSION['usertype']=="clerk")
 			
 								{
@@ -804,15 +804,15 @@ function deleteconfirm() // make alert for delete elders details
 									{
 										 $count=0;
 										$sql8 ="SELECT DISTINCT ward_no  FROM ward WHERE branch_id='$branch_id' AND home_no='$row5[home_no]'";
-										$result8=mysql_query($sql8) or die ("mysql.error:".mysql_error());
-										$row8=mysql_fetch_assoc($result8);
+										$result8=mysqli_query($connection,$sql8) or die ("mysqli.error:".mysqli_error());
+										$row8=mysqli_fetch_assoc($result8);
 										
 										do
 										{
 											$sql7 ="SELECT *  FROM elders WHERE branch_id='$branch_id' AND home_no='$row5[home_no]' AND ward_no='$row8[ward_no]' AND status='Live'";
-										$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-										$row7=mysql_fetch_assoc($result7);
-											if(mysql_num_rows($result7)==5)
+										$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+										$row7=mysqli_fetch_assoc($result7);
+											if(mysqli_num_rows($result7)==5)
 											{
 											}
 											else
@@ -831,9 +831,9 @@ function deleteconfirm() // make alert for delete elders details
 												}
 											}
 										}
-										while($row8=mysql_fetch_assoc($result8));
+										while($row8=mysqli_fetch_assoc($result8));
 									}
-									while($row5=mysql_fetch_assoc($result5));									
+									while($row5=mysqli_fetch_assoc($result5));									
 								echo "</select>";
 								}
 								else if($_SESSION['usertype']=="admin")//check usertype admin
@@ -845,14 +845,14 @@ function deleteconfirm() // make alert for delete elders details
 									{
 										$count=0;
 										$sql8 ="SELECT DISTINCT ward_no  FROM ward WHERE branch_id='$branch_id' AND home_no='$row5[home_no]'";
-										$result8=mysql_query($sql8) or die ("mysql.error:".mysql_error());
-										$row8=mysql_fetch_assoc($result8);
+										$result8=mysqli_query($connection,$sql8) or die ("mysqli.error:".mysqli_error());
+										$row8=mysqli_fetch_assoc($result8);
 										
 										do
 										{
 										$sql7 ="SELECT *  FROM elders WHERE branch_id='$branch_id' AND home_no='$row5[home_no]' AND ward_no='$row8[ward_no]' AND status='Live'";
-										$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-										$row7=mysql_fetch_assoc($result7);
+										$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+										$row7=mysqli_fetch_assoc($result7);
 										if(mysql_num_rows($result7)==5)
 										{
 										}
@@ -897,14 +897,14 @@ function deleteconfirm() // make alert for delete elders details
 				else
 				{
 					$sql7 ="SELECT *  FROM branch WHERE branch_name='$branchselect'";
-					$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-					$row7=mysql_fetch_assoc($result7);
+					$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysql_error());
+					$row7=mysqli_fetch_assoc($result7);
 					$branch_id=$row7["branch_id"];
 				}
 									
 									$sql5 ="SELECT DISTINCT *  FROM ward WHERE branch_id='$branch_id' AND home_no='$homeselect' AND no_of_beds!='0'";
-									$result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-									$row5=mysql_fetch_assoc($result5);
+									$result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysql_error());
+									$row5=mysqli_fetch_assoc($result5);
 									if($_SESSION['usertype']=="manager"||$_SESSION['usertype']=="clerk")
 			
 								{
@@ -914,16 +914,16 @@ function deleteconfirm() // make alert for delete elders details
 									do
 									{
 										$sql7 ="SELECT *  FROM elders WHERE branch_id='$branch_id' AND home_no='$homeselect' AND ward_no='$row5[ward_no]' AND status='Live'";
-										$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-										$row7=mysql_fetch_assoc($result7);
-										if(mysql_num_rows($result7)==5)
+										$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+										$row7=mysqli_fetch_assoc($result7);
+										if(mysqli_num_rows($result7)==5)
 										{
 										}
 										else
 										{
 										if($row5['ward_no']==$wardselect )
 										 	{
-												if(mysql_num_rows($result7)>0)
+												if(mysqli_num_rows($result7)>0)
 												{
 												echo "<option selected value=".$row5['ward_no'].">".$row5['ward_no']."(".$row5['ward_type'].")</option>"; 
 												}
@@ -947,16 +947,16 @@ function deleteconfirm() // make alert for delete elders details
 									do
 									{
 										$sql7 ="SELECT *  FROM elders WHERE branch_id='$branch_id' AND home_no='$homeselect' AND ward_no='$row5[ward_no]' AND status='Live'";
-										$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-										$row7=mysql_fetch_assoc($result7);
-										if(mysql_num_rows($result7)==5)
+										$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+										$row7=mysqli_fetch_assoc($result7);
+										if(mysqli_num_rows($result7)==5)
 										{
 										}
 										else
 										{
 										if($row5['ward_no']==$wardselect && $row5['ward_no']>=0)
 										 	{
-												if(mysql_num_rows($result7)>0)
+												if(mysqli_num_rows($result7)>0)
 												{
 												echo "<option selected value=".$row5['ward_no'].">".$row5['ward_no']."(".$row5['ward_type'].")</option>"; 
 												}
@@ -990,13 +990,13 @@ function deleteconfirm() // make alert for delete elders details
 				else
 				{
 					$sql7 ="SELECT *  FROM branch WHERE branch_name='$branchselect'";
-					$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-					$row7=mysql_fetch_assoc($result7);
+					$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysql_error());
+					$row7=mysqli_fetch_assoc($result7);
 					$branch_id=$row7["branch_id"];
 				}
 									
 									$sql5 ="SELECT no_of_beds  FROM ward WHERE branch_id='$branch_id' AND home_no='$homeselect' AND ward_no='$wardselect'";
-									$result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
+									$result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysql_error());
 									$row5=mysql_fetch_assoc($result5);
 									$numofbeds=$row5['no_of_beds'];
 									
@@ -1006,7 +1006,7 @@ function deleteconfirm() // make alert for delete elders details
 								
 										
 										$sql7 ="SELECT *  FROM elders WHERE branch_id='$branch_id' AND home_no='$homeselect' AND ward_no='$wardselect' AND status='Live'";
-										$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
+										$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
 										$row7=mysql_fetch_assoc($result7);
 										$noofrows=mysql_num_rows($result7);
 										$bed=array();
@@ -1250,16 +1250,16 @@ elseif(($_GET['option']=="view"))
 								{
 									$sql2="SELECT * FROM elders WHERE branch_id='$branch_id'";
 								}
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$bid=$row['branch_id'];
 							?>
                             
                            <?php
                             $sql4 ="SELECT user_id FROM user";
-				   $result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				   $row4=mysql_fetch_assoc($result4)
+				   $result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				   $row4=mysqli_fetch_assoc($result4)
 							?>
                             
 							<tr><td class="center" align="center"><?php echo $row['admission_no']; ?></td><td class="center" align="center"><?php echo $row['name']; ?></td><td class="center" align="center"><?php echo $row['address']; ?></td><td class="center" align="center"><?php echo $row['home_no']; ?></td><td class="center" align="center"><?php echo $row['ward_no']; ?></td><td class="center" align="center"><?php echo $row['status']; ?></td><td class="center" align="center"><?php 

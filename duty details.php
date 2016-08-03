@@ -131,8 +131,8 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' ||$_SESSION['
 		if($_GET['status']=="dutyview")
 		{
 			$sql ="SELECT * FROM duty WHERE user_id='$sid' AND arrival_time='$arr' AND date='$date' ";
-			$result=mysql_query($sql) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span12">
@@ -364,16 +364,16 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' ||$_SESSION['
 			if($stafftype=="ward-incharge")
 			{
 				$sql9= "SELECT * FROM ward WHERE incharge='$staffname' AND branch_id='$branch_id' ORDER BY home_no DESC "; 
-				$result9= mysql_query($sql9) or die("Error in sql9".mysql_error());
-				$row9=mysql_fetch_assoc($result9);
+				$result9= mysqli_query($connection,$sql9) or die("Error in sql9".mysqli_error());
+				$row9=mysqli_fetch_assoc($result9);
 				$homeno=$row9['home_no'];
 				echo "<input type='text' name='txt_homeno' id='txt_homeno' readonly  value='$homeno'>"."</input>";
 			}
 			else if($stafftype=="Labour")
 			{
 				$sql9= "SELECT DISTINCT home_no FROM ward WHERE branch_id='$branch_id' "; 
-				$result9= mysql_query($sql9) or die("Error in sql9".mysql_error());
-				$row9=mysql_fetch_assoc($result9);
+				$result9= mysqli_query($connection,$sql9) or die("Error in sql9".mysqli_error());
+				$row9=mysqli_fetch_assoc($result9);
 				$homeno=$row9['home_no'];
 				echo "<select name='txt_homeno' data-rel='chosen' id='txt_homeno' required>";
 				do{
@@ -489,18 +489,18 @@ elseif(($_GET['option']=="view"))
 									$sql2="SELECT user_id FROM staff WHERE branch_id='$branch_id'";
 									
 								}
-								$result2=mysql_query($sql2);
-								while($row2=mysql_fetch_assoc($result2))
+								$result2=mysqli_query($connection,$sql2);
+								while($row2=mysqli_fetch_assoc($result2))
 								{
 									$sql1="SELECT * FROM duty WHERE user_id='$row2[user_id]'";
-									$result1= mysql_query($sql1) or die("Error in sql1".mysql_error());
+									$result1= mysqli_query($connection,$sql1) or die("Error in sql1".mysqli_error());
 									
-									if(mysql_num_rows($result1)<=0)
+									if(mysqli_num_rows($result1)<=0)
 									{
 									}
 									else
 									{
-									while($row= mysql_fetch_assoc($result1))
+									while($row= mysqli_fetch_assoc($result1))
 									{
 							?>
 							<tr><td class="center"><?php echo $row['user_id']; ?></td><td class="center"><?php echo $row['date']; ?></td><td class="center"><?php echo $row['arrival_time']; ?></td></td><td class="center"><a class="btn btn-success" href="<?php echo $viewpage; ?>&status=dutyview&sid=<?php echo $row['user_id']; ?>&arr=<?php echo $row['arrival_time']; ?>&date=<?php echo $row['date']; ?>">

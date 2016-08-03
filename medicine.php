@@ -39,12 +39,12 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' || $_SESSION[
 		$tid=$_POST['txt_time'];
 		$uid=$_POST['txt_userid'];
 									$sql5="SELECT *  FROM staff WHERE name='$uid' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										 
 										 $sql6="SELECT *  FROM elders WHERE name='$aid' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 		
 		$sql= "INSERT INTO medicine(admission_no,date,time,tablet,remarks,user_id) 
 						VALUES(
@@ -87,12 +87,12 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' || $_SESSION[
 		$time=date("H:i:s", strtotime($_POST['txt_time']));
 		
 									$sql5="SELECT *  FROM staff WHERE name='$uid' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
           		                         $row5=mysql_fetch_assoc($result5);
 										 
 										 $sql6="SELECT *  FROM elders WHERE name='$aid' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 		
 		
 		$sql="UPDATE medicine SET 
@@ -152,16 +152,16 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="medicineview")
 		{
 			$sql1 ="SELECT * FROM medicine WHERE admission_no='$aid' AND date='$did' AND  time='$tid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 									$sql5="SELECT *  FROM staff WHERE user_id='$row[user_id]' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysql.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										 
 										 $sql6="SELECT *  FROM elders WHERE admission_no='$row[admission_no]' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysql.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -205,16 +205,16 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="medicineedit")
 		{
 			$sql1 ="SELECT * FROM medicine WHERE admission_no='$aid' AND date='$did' AND  time='$tid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 										$sql5="SELECT *  FROM staff WHERE user_id='$row[user_id]' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										 
 										 $sql6="SELECT *  FROM elders WHERE admission_no='$row[admission_no]' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 			
 			?>
 
@@ -302,7 +302,7 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="medicinedelete")
 		{
 			$sql2="DELETE FROM medicine  WHERE admission_no='$aid' AND date='$did' AND  time='$tid'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 			
 		}
 		//medicine delete end
@@ -353,26 +353,26 @@ function deleteconfirm() // make alert for delete elders details
 								 echo "<select  required name='txt_admission'  id='txt_admission' data-rel='chosen'>";
 										 echo "<option></option>";
 								$sql6="SELECT DISTINCT home_no  FROM ward WHERE incharge='$name' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 								do
 								{
 										$sql7="SELECT DISTINCT ward_no  FROM ward WHERE incharge='$name' AND home_no='$row6[home_no]' ";
-				                          $result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-          		                         $row7=mysql_fetch_assoc($result7);
+				                          $result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+          		                         $row7=mysqli_fetch_assoc($result7);
 										 
 										
 									do
 									{
 										$sql5="SELECT *  FROM elders WHERE branch_id='$branch_id' AND home_no='$row6[home_no]' AND ward_no='$row7[ward_no]' AND status='Live'";
-				                          $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                          $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										 do
 										 {
 										 	
 												echo "<option value=".$row5['admission_no'].">".$row5['name']."</option>";
 											}
-											while($row5=mysql_fetch_assoc($result5));
+											while($row5=mysqli_fetch_assoc($result5));
 										
 									}
 									while($row7=mysql_fetch_assoc($result7));
@@ -426,8 +426,8 @@ function deleteconfirm() // make alert for delete elders details
             <?php
 			$name=$_SESSION['username'];
 			 $sql2 ="SELECT *FROM staff WHERE user_id='$name'";
-				$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-				$row2=mysql_fetch_assoc($result2);
+				$result2=mysqli_query($connection,$sql2) or die ("mysqli.error:".mysqli_error());
+				$row2=mysqli_fetch_assoc($result2);
 			?>
               <input type="text" required class="input-xlarge focused" id="txt_userid" readonly name="txt_userid" value="<?php echo $row2['name']; ?>" >
             
@@ -518,16 +518,16 @@ elseif(($_GET['option']=="view"))
 									
 									}
 						
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 			               				$sql5="SELECT *  FROM staff WHERE user_id='$row[user_id]' ";
-				                          $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                          $result5=mysqli_query($connection,$sql5) or die ("mysql.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										 
 										 $sql6="SELECT *  FROM elders WHERE admission_no='$row[admission_no]' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysql.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 		                            
 							?>
 							<tr><td class="center"><?php echo $row6['name']; ?></td><td class="center"><?php echo $row['time']; ?></td><td class="center"><?php echo $row5['name']; ?></td><td class="center"><?php echo $row['date']; ?></td><td class="center"><a class="btn btn-success"   href="<?php echo $viewpage; ?>&status=medicineview&aid=<?php echo $row['admission_no']; ?>&did=<?php echo $row['date']; ?>&tid=<?php echo $row['time']; ?>">

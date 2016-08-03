@@ -39,15 +39,15 @@
 	{
 		$sql2 = "INSERT INTO message(mess_id,user_id,to_id,message,status,inboxstatus,sentstatus) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_messid'])."',
-						'".mysql_real_escape_string($_POST['txt_userid'])."',
-						'".mysql_real_escape_string($_POST['txt_toid'])."',
-						'".mysql_real_escape_string($_POST['txt_mess'])."',
-						'".mysql_real_escape_string('1')."',
-						'".mysql_real_escape_string('1')."',
-						'".mysql_real_escape_string('1')."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_messid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_userid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_toid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_mess'])."',
+						'".mysqli_real_escape_string($connection,'1')."',
+						'".mysqli_real_escape_string($connection,'1')."',
+						'".mysqli_real_escape_string($connection,'1')."'
 						)";
-		$result2=mysql_query($sql2) or die("Error in sql2 ".mysql_error());
+		$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
 						
 						
 						if($result2)
@@ -56,7 +56,7 @@
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 	}
 	
@@ -85,41 +85,41 @@
 		if($_GET['status']=="messageview")
 		{
 			$sql2="UPDATE message SET status='0' WHERE to_id='$username' AND mess_id='$mid'";
-			$result=mysql_query($sql2) or die ("mysql.error:".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die ("mysql.error:".mysqli_error());
 			
 			$sql1 ="SELECT * FROM message WHERE mess_id='$mid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 									$sql4 ="SELECT *  FROM user WHERE user_id='$row[user_id]' ";
-									$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-          							$row4=mysql_fetch_assoc($result4);
+									$result4=mysqli_query($connection,$sql4) or die ("mysql.error:".mysqli_error());
+          							$row4=mysqli_fetch_assoc($result4);
 									if($row4['usertype']=="sponsor")
 									{
 									$sql3 ="SELECT *  FROM sponsor WHERE user_id='$row[user_id]' ";
-									$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          							$row3=mysql_fetch_assoc($result3);
+									$result3=mysqli_query($connection,$sql3) or die ("mysql.error:".mysqli_error());
+          							$row3=mysqli_fetch_assoc($result3);
 									}
 									else 
 									{
 									$sql3 ="SELECT *  FROM staff WHERE user_id='$row[user_id]' ";
-									$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          							$row3=mysql_fetch_assoc($result3);
+									$result3=mysqli_query($connection,$sql3) or die ("mysql.error:".mysqli_error());
+          							$row3=mysqli_fetch_assoc($result3);
 									}
 									
 									$sql5 ="SELECT *  FROM user WHERE user_id='$row[to_id]' ";
-									$result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          							$row5=mysql_fetch_assoc($result5);
+									$result5=mysqli_query($connection,$sql5) or die ("mysql.error:".mysqli_error());
+          							$row5=mysqli_fetch_assoc($result5);
 									if($row5['usertype']=="sponsor")
 									{
 									$sql6 ="SELECT *  FROM sponsor WHERE user_id='$row[to_id]' ";
-									$result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          							$row6=mysql_fetch_assoc($result6);
+									$result6=mysqli_query($connection,$sql6) or die ("mysql.error:".mysqli_error());
+          							$row6=mysqli_fetch_assoc($result6);
 									}
 									else 
 									{
 									$sql6 ="SELECT *  FROM staff WHERE user_id='$row[to_id]' ";
-									$result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          							$row6=mysql_fetch_assoc($result6);
+									$result6=mysqli_query($connection,$sql6) or die ("mysql.error:".mysqli_error());
+          							$row6=mysqli_fetch_assoc($result6);
 									}
 			?>
 			<div class="row-fluid sortable">		
@@ -164,18 +164,18 @@
 		{
 			$mid=$_GET['mid'];
 			$sql1="SELECT * FROM message WHERE mess_id='$mid'";
-			$result=mysql_query($sql1) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql1) or die("Error in mysql :".mysqli_error());
 			$row=mysql_fetch_assoc($result);
 			
 			if($row['sentstatus']==1)
 			{
 				$sql2="UPDATE message SET inboxstatus='0' WHERE mess_id='$mid'";
-				$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+				$result=mysqli_query($connection,$sql2) or die("Error in mysql :".mysqli_error());
 			}
 			else
 			{
 				$sql2="DELETE FROM message WHERE mess_id='$mid'";
-				$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+				$result=mysqli_query($connection,$sql2) or die("Error in mysql :".mysqli_error());
 			}
 			
 		}
@@ -183,18 +183,18 @@
 		{
 			$mid=$_GET['mid'];
 			$sql1="SELECT * FROM message WHERE mess_id='$mid'";
-			$result=mysql_query($sql1) or die("Error in mysql :".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die("Error in mysql :".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			if($row['inboxstatus']==1)
 			{
 				$sql2="UPDATE message SET sentstatus='0' WHERE mess_id='$mid'";
-				$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+				$result=mysqli_query($connection,$sql2) or die("Error in mysql :".mysqli_error());
 			}
 			else
 			{
 				$sql2="DELETE FROM message WHERE mess_id='$mid'";
-				$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+				$result=mysqli_query($connection,$sql2) or die("Error in mysql :".mysqli_error());
 			}
 		}
 		//item delete end
@@ -210,10 +210,10 @@
 		{
 			include ("config.php");
 			$sql1 ="SELECT mess_id FROM message ORDER BY mess_id  ASC";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			if(mysql_num_rows($result)>0)
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			if(mysqli_num_rows($result)>0)
 			{
-				while($row=mysql_fetch_assoc($result))
+				while($row=mysqli_fetch_assoc($result))
 				{
 					$tid=$row['mess_id'];
 				}
@@ -273,11 +273,11 @@
           if($_SESSION['usertype']=='sponsor')
 {
 									$sql4 ="SELECT *  FROM user WHERE usertype='admin' ";
-									$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-          							$row4=mysql_fetch_assoc($result4);
+									$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+          							$row4=mysqli_fetch_assoc($result4);
 									$sql3 ="SELECT *  FROM staff WHERE user_id='$row4[user_id]' ";
-									$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          							$row3=mysql_fetch_assoc($result3);
+									$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
+          							$row3=mysqli_fetch_assoc($result3);
 									
 	?>
     <div class="control-group">
@@ -296,12 +296,12 @@ else if($_SESSION['usertype']=='admin')
 	 $branch_id=$_SESSION['branch_id'];
 	 $username=$_SESSION['username'];
 		  		$sql3 ="SELECT *  FROM staff WHERE user_id!='$username' AND staff_designation!='Delete'";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          		$row3=mysql_fetch_assoc($result3);
+				$result3=mysqli_query($connection,$sql3) or die ("mysql.error:".mysqli_error());
+          		$row3=mysqli_fetch_assoc($result3);
 				
 				$sql4 ="SELECT *  FROM sponsor ";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-          		$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4) or die ("mysql.error:".mysqli_error());
+          		$row4=mysqli_fetch_assoc($result4);
 	?>
     <div class="control-group">
 								<label class="control-label" for="selectError">TO NAME</label>
@@ -321,7 +321,7 @@ else if($_SESSION['usertype']=='admin')
 										}
 										
 									}
-									while($row3=mysql_fetch_assoc($result3));
+									while($row3=mysqli_fetch_assoc($result3));
 									
 									do
 									{
@@ -330,7 +330,7 @@ else if($_SESSION['usertype']=='admin')
 										
 										
 									}
-									while($row4=mysql_fetch_assoc($result4));
+									while($row4=mysqli_fetch_assoc($result4));
 									?>										
 								 </select>
 								</div>
@@ -344,8 +344,8 @@ else
 	 $branch_id=$_SESSION['branch_id'];
 	 $username=$_SESSION['username'];
 		  		$sql3 ="SELECT *  FROM staff WHERE branch_id='$branch_id' AND user_id!='$username' AND staff_designation!='Delete'";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          		$row3=mysql_fetch_assoc($result3);
+				$result3=mysqli_query($connection,$sql3) or die ("mysql.error:".mysqli_error());
+          		$row3=mysqli_fetch_assoc($result3);
 	?>
     <div class="control-group">
 								<label class="control-label" for="selectError">TO NAME</label>
@@ -359,7 +359,7 @@ else
 										
 										
 									}
-									while($row3=mysql_fetch_assoc($result3));
+									while($row3=mysqli_fetch_assoc($result3));
 									?>										
 								 </select>
 								</div>
@@ -426,23 +426,22 @@ else if(($_GET['option']=="sent"))
 								
 									$sql2="SELECT * FROM message WHERE user_id='$userId' and sentstatus=1";
 								
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$sql4 ="SELECT *  FROM user WHERE user_id='$row[to_id]' ";
-									$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-          							$row4=mysql_fetch_assoc($result4);
+									$result4=mysqli_query($connection,$sql4) or die ("mysql.error:".mysqli_result4);
 									if($row4['usertype']=="sponsor")
 									{
 									$sql3 ="SELECT *  FROM sponsor WHERE user_id='$row[to_id]' ";
-									$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          							$row3=mysql_fetch_assoc($result3);
+									$result3=mysqli_query($connection,$sql3) or die ("mysql.error:".mysqli_error());
+          							$row3=mysqli_fetch_assoc($result3);
 									}
 									else 
 									{
 									$sql3 ="SELECT *  FROM staff WHERE user_id='$row[to_id]' ";
-									$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          							$row3=mysql_fetch_assoc($result3);
+									$result3=mysqli_query($connection,$sql3) or die ("mysql.error:".mysqli_error());
+          							$row3=mysqli_fetch_assoc($result3);
 									}
 							?>
 							<tr><td class="center"><?php echo $row['user_id']; ?></td><td class="center"><?php echo $row3['name']; ?></td><td class="center"><?php echo $row['message']; ?></td><td class="center"><a class="btn btn-success" 
@@ -493,23 +492,23 @@ else if(($_GET['option']=="inbox"))
 								
 									$sql2="SELECT * FROM message WHERE to_id='$userId' and inboxstatus=1";
 								
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$sql4 ="SELECT *  FROM user WHERE user_id='$row[user_id]' ";
-									$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-          							$row4=mysql_fetch_assoc($result4);
+									$result4=mysqli_query($connection,$sql4) or die ("mysql.error:".mysqli_error());
+          							$row4=mysqli_fetch_assoc($result4);
 									if($row4['usertype']=="sponsor")
 									{
 									$sql3 ="SELECT *  FROM sponsor WHERE user_id='$row[user_id]' ";
-									$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          							$row3=mysql_fetch_assoc($result3);
+									$result3=mysqli_query($connection,$sql3) or die ("mysql.error:".mysqli_error());
+          							$row3=mysqli_fetch_assoc($result3);
 									}
 									else 
 									{
 									$sql3 ="SELECT *  FROM staff WHERE user_id='$row[user_id]' ";
-									$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          							$row3=mysql_fetch_assoc($result3);
+									$result3=mysqli_query($connection,$sql3) or die ("mysql.error:".mysqli_error());
+          							$row3=mysqli_fetch_assoc($result3);
 									}
 									?>
 							<tr><td class="center"><?php echo $row3['name']; ?></td><td class="center"><?php echo $row['to_id']; ?></td><td class="center"><?php echo $row['message']; ?></td><td class="center"><a class="btn btn-success" 

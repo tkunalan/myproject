@@ -91,10 +91,10 @@ if(isset($_POST['save']))
 						'".mysql_real_escape_string($_POST['txt_userid'])."',
 						'".mysql_real_escape_string($_POST['txt_pass'])."',
 						'".mysql_real_escape_string('pending')."')";
-						$result2=mysql_query($sql2) or die("Error in sql2 ".mysql_error());
+						$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
 		
 												
-				$result=mysql_query($sql) or die("Error in sql ".mysql_error());
+				$result=mysqli_query($connection,$sql) or die("Error in sql ".mysqli_error());
 					if($result and $result2 )
 						{
 							//header("location:".$viewpage);
@@ -129,10 +129,10 @@ if($_GET['option']=="new")
 		{
 			include ("config.php");
 			$sql1 ="SELECT user_id FROM sponsor ORDER BY user_id ASC";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			if(mysql_num_rows($result)>0)
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			if(mysqli_num_rows($result)>0)
 			{
-				while($row=mysql_fetch_assoc($result))
+				while($row=mysqli_fetch_assoc($result))
 				{
 					$sp_No=$row['user_id'];
 				}

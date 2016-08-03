@@ -36,15 +36,15 @@
 		$did=$_POST['txt_date'];
 		$uid=$_POST['txt_userid'];
 									$sql5="SELECT *  FROM staff WHERE name='$uid' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysql.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 		
 		$sql= "INSERT INTO diagnosis(date,admission_no,user_id,remarks) 
 						VALUES(
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($_POST['txt_admission'])."',
-						'".mysql_real_escape_string($row5['user_id'])."',
-						'".mysql_real_escape_string($_POST['txt_remarks'])."'
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_admission'])."',
+						'".mysqli_real_escape_string($connection,$row5['user_id'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_remarks'])."'
 						
 						)";
 		
@@ -52,7 +52,7 @@
 		
 		
 												
-				$result=mysql_query($sql) or die("Error in sql ".mysql_error());
+				$result=mysqli_query($connection,$sql) or die("Error in sql ".mysqli_error());
 					if($result)
 						{
 							
@@ -62,7 +62,7 @@
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 	
 	}
@@ -77,24 +77,24 @@
 		$did=$_POST['txt_date'];
 		$uid=$_POST['txt_userid'];
 									$sql5="SELECT *  FROM staff WHERE name='$uid' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysql.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										 
 										 $sql6="SELECT *  FROM elders WHERE name='$aid' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysql.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 		
 		
 		$sql="UPDATE diagnosis SET 
-		                    date='".mysql_real_escape_string($_POST['txt_date'])."',
-							admission_no='".mysql_real_escape_string($row6['admission_no'])."',
-							user_id='".mysql_real_escape_string($row5['user_id'])."',
-						    remarks='".mysql_real_escape_string($_POST['txt_remarks'])."'
+		                    date='".mysqli_real_escape_string($connection,$_POST['txt_date'])."',
+							admission_no='".mysqli_real_escape_string($connection,$row6['admission_no'])."',
+							user_id='".mysqli_real_escape_string($connection,$row5['user_id'])."',
+						    remarks='".mysqli_real_escape_string($connection,$_POST['txt_remarks'])."'
 							
 							
 													
 						WHERE admission_no='$row6[admission_no]' AND date='$did'";
-			$result=mysql_query($sql);
+			$result=mysqli_query($connection,$sql);
 		
 			
 										
@@ -143,16 +143,16 @@ function deleteconfirm() // make alert for delete branch details
 		if($_GET['status']=="diagnosisview")
 		{
 			$sql1 ="SELECT * FROM diagnosis WHERE admission_no='$aid' AND date='$did'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 									$sql5="SELECT *  FROM staff WHERE user_id='$row[user_id]' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										 
 										 $sql6="SELECT *  FROM elders WHERE admission_no='$aid' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysql.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -194,15 +194,15 @@ function deleteconfirm() // make alert for delete branch details
 		elseif($_GET['status']=="diagnosisedit")
 		{
 			$sql1 ="SELECT * FROM diagnosis WHERE admission_no='$aid' AND date='$did'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 									$sql5="SELECT *  FROM staff WHERE user_id='$row[user_id]' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										 
 										 $sql6="SELECT *  FROM elders WHERE admission_no='$aid' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 			
 			
 			?>
@@ -279,7 +279,7 @@ function deleteconfirm() // make alert for delete branch details
 		elseif($_GET['status']=="diagnosisdelete")
 		{
 			$sql2="DELETE FROM diagnosis  WHERE admission_no='$aid' AND date='$did'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 			
 		}
 		//diagnosis delete end
@@ -331,14 +331,14 @@ function deleteconfirm() // make alert for delete branch details
 										 echo "<option></option>";
 								
 										$sql5="SELECT *  FROM elders WHERE branch_id='$branch_id' AND status='Live'";
-				                          $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                          $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										 do
 										 {
 										 	
 												echo "<option value=".$row5['admission_no'].">".$row5['name']."</option>";
 											}
-											while($row5=mysql_fetch_assoc($result5));
+											while($row5=mysqli_fetch_assoc($result5));
 									echo "</select>";
 									?>
               
@@ -372,8 +372,8 @@ function deleteconfirm() // make alert for delete branch details
             <?php
 			$name=$_SESSION['username'];
 			 $sql2 ="SELECT *FROM staff WHERE user_id='$name'";
-				$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-				$row2=mysql_fetch_assoc($result2);
+				$result2=mysqli_query($connection,$sql2) or die ("mysqli.error:".mysqli_error());
+				$row2=mysqli_fetch_assoc($result2);
 			?>
               <input type="text" required class="input-xlarge focused" id="txt_userid" readonly name="txt_userid" value="<?php echo $row2['name']; ?>" >
             
@@ -452,37 +452,37 @@ elseif(($_GET['option']=="view"))
 									$branch_id=$_SESSION['branch_id'];
 								$name=$_SESSION['username'];
 								$sql6="SELECT  home_no  FROM ward WHERE incharge='$name' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 								do
 								{
 										$sql7="SELECT  ward_no  FROM ward WHERE incharge='$name' AND home_no='$row6[home_no]' ";
-				                          $result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-          		                         $row7=mysql_fetch_assoc($result7);
+				                          $result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+          		                         $row7=mysqli_fetch_assoc($result7);
 										 
 										
 									do
 									{
 										$sql5="SELECT *  FROM elders WHERE branch_id='$branch_id' AND home_no='$row6[home_no]' AND ward_no='$row7[ward_no]' AND status='Live'";
-										$result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-										$row5=mysql_fetch_assoc($result5);
+										$result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+										$row5=mysqli_fetch_assoc($result5);
 										 do
 										 {
 										 	$sql2="SELECT * FROM diagnosis WHERE admission_no='$row5[admission_no]'";
-													$result=mysql_query($sql2);
-													$row=mysql_fetch_assoc($result);
+													$result=mysqli_query($connection,$sql2);
+													$row=mysqli_fetch_assoc($result);
 											do
 											{
 											$sql9="SELECT *  FROM staff WHERE user_id='$row[user_id]' ";
-											$result9=mysql_query($sql9) or die ("mysql.error:".mysql_error());
-											$row9=mysql_fetch_assoc($result9);
+											$result9=mysqli_query($sql9) or die ("mysqli.error:".mysqli_error());
+											$row9=mysqli_fetch_assoc($result9);
 										 
 												$sql66="SELECT *  FROM elders WHERE admission_no='$row[admission_no]' ";
-												$result66=mysql_query($sql66) or die ("mysql.error:".mysql_error());
-												$row66=mysql_fetch_assoc($result66);
+												$result66=mysqli_query($connection,$sql66) or die ("mysqli.error:".mysqli_error());
+												$row66=mysqli_fetch_assoc($result66);
 												do
 												{
-												if(mysql_num_rows($result)==0)
+												if(mysqli_num_rows($result)==0)
 												{
 											 
 												}
@@ -499,17 +499,17 @@ elseif(($_GET['option']=="view"))
 												<?php
 												}
 												}
-												while($row66=mysql_fetch_assoc($result66));
+												while($row66=mysqli_fetch_assoc($result66));
 											}
-											while($row=mysql_fetch_assoc($result));
+											while($row=mysqli_fetch_assoc($result));
 								
 										}
-										while($row5=mysql_fetch_assoc($result5));
+										while($row5=mysqli_fetch_assoc($result5));
 										
 									}
-									while($row7=mysql_fetch_assoc($result7));
+									while($row7=mysqli_fetch_assoc($result7));
 								}
-								while($row6=mysql_fetch_assoc($result6));
+								while($row6=mysqli_fetch_assoc($result6));
 										
 									
 								}
@@ -519,16 +519,16 @@ elseif(($_GET['option']=="view"))
 									$sql2="SELECT * FROM diagnosis WHERE user_id='$name'";
 								
 						
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$sql5="SELECT *  FROM staff WHERE user_id='$name' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										 
 										 $sql6="SELECT *  FROM elders WHERE admission_no='$row[admission_no]' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 			              
 								
 							?>

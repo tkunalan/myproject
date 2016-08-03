@@ -15,12 +15,12 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' ))
 	{
 		$sql2 = "INSERT INTO branch(branch_id,branch_name,address,contact_no) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_branchid'])."',
-						'".mysql_real_escape_string($_POST['txt_bname'])."',
-						'".mysql_real_escape_string($_POST['txt_address'])."',
-						'".mysql_real_escape_string($_POST['txt_contactno'])."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_branchid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_bname'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_address'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_contactno'])."'
 						)";
-		$result2=mysql_query($sql2) or die("Error in sql2 ".mysql_error());
+		$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
 						
 						
 						if($result2)
@@ -31,7 +31,7 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' ))
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 	}
 	
@@ -40,13 +40,13 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' ))
 		
 		$bid=$_POST['txt_branchid'];
 		$sql="UPDATE branch SET 
-							branch_name='".mysql_real_escape_string($_POST['txt_bname'])."',
-							address=	'".mysql_real_escape_string($_POST['txt_address'])."',
-							contact_no=	'".mysql_real_escape_string($_POST['txt_contactno'])."'
+							branch_name='".mysqli_real_escape_string($connection,$_POST['txt_bname'])."',
+							address=	'".mysqli_real_escape_string($connection,$_POST['txt_address'])."',
+							contact_no=	'".mysqli_real_escape_string($connection,$_POST['txt_contactno'])."'
 							 
 						
 						WHERE branch_id='$bid'";
-			$result=mysql_query($sql);
+			$result=mysqli_query($connection,$sql);
 			
 										
 	}
@@ -92,8 +92,8 @@ function deleteconfirm() // make alert for delete branch details
 		if($_GET['status']=="branchview")
 		{
 			$sql2 ="SELECT * FROM branch WHERE branch_id='$bid'";
-			$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result2);
+			$result2=mysqli_query($connection,$sql2) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result2);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -127,8 +127,8 @@ function deleteconfirm() // make alert for delete branch details
 		elseif($_GET['status']=="branchedit")
 		{
 			$sql1 ="SELECT * FROM branch WHERE branch_id='$bid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			?>
 
@@ -202,7 +202,7 @@ function deleteconfirm() // make alert for delete branch details
 		elseif($_GET['status']=="branchdelete")
 		{
 			$sql2="DELETE FROM branch  WHERE branch_id='$bid'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysql :".mysqli_error());
 			
 		}
 		//branch delete end
@@ -218,10 +218,10 @@ function deleteconfirm() // make alert for delete branch details
 		{
 			include ("config.php");
 			$sql1 ="SELECT branch_id FROM branch ORDER BY branch_id ASC";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			if(mysql_num_rows($result)>0)
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			if(mysqli_num_rows($result)>0)
 			{
-				while($row=mysql_fetch_assoc($result))
+				while($row=mysqli_fetch_assoc($result))
 				{
 					$bid=$row['branch_id'];
 				}
@@ -361,15 +361,15 @@ elseif(($_GET['option']=="view"))
 								{
 									$sql2="SELECT * FROM branch WHERE branch_id='$bid'";
 								}
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$bid=$row['branch_id'];
 							?>
 							<tr><td class="center"><?php echo $row['branch_id']; ?></td><td class="center"><?php echo $row['branch_name']; ?></td><td class="center"><?php echo $row['address']; ?></td><?php 
 								$sql3="SELECT * FROM branch WHERE branch_id='$bid'";
-								$result3=mysql_query($sql3);
-								$row3=mysql_fetch_assoc($result3);
+								$result3=mysqli_query($connection,$sql3);
+								$row3=mysqli_fetch_assoc($result3);
 								$bname=$row3['branch_name'];
 							//echo $bname; ?></td><td class="center"><a class="btn btn-success" href="<?php echo $viewpage; ?>&status=branchview&bid=<?php echo $row['branch_id']; ?>">
 										<i class="icon-zoom-in icon-white"></i>  

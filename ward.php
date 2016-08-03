@@ -31,15 +31,15 @@
 				$barnchid=$row8['branch_id'];
 		$sql2 = "INSERT INTO ward(home_no,ward_no,no_of_beds,incharge,remarks,ward_type,branch_id) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_homeno'])."',
-						'".mysql_real_escape_string($_POST['txt_wardno'])."',
-						'".mysql_real_escape_string($_POST['txt_noofbeds'])."',
-						'".mysql_real_escape_string($_POST['txt_staffid'])."',
-						'".mysql_real_escape_string($_POST['txt_remarks'])."',
-						'".mysql_real_escape_string($_POST['txt_wardtype'])."',
-						'".mysql_real_escape_string($barnchid)."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_homeno'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_wardno'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_noofbeds'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_staffid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_remarks'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_wardtype'])."',
+						'".mysqli_real_escape_string($connection,$barnchid)."'
 						)";
-		$result2=mysql_query($sql2) or die("Error in sql2 ".mysql_error());
+		$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
 						
 						
 						if($result2)
@@ -50,7 +50,7 @@
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 	}
 	
@@ -61,13 +61,13 @@
 		$wid=$_POST['txt_wardno'];
 		$bid=$_POST['txt_branchid'];
 		$sql="UPDATE ward SET 
-							home_no='".mysql_real_escape_string($_POST['txt_homeno'])."',
-							ward_no='".mysql_real_escape_string($_POST['txt_wardno'])."',
-							no_of_beds=	'".mysql_real_escape_string($_POST['txt_noofbeds'])."',
-							incharge='".mysql_real_escape_string($_POST['txt_staffid'])."',
-							remarks='".mysql_real_escape_string($_POST['txt_remarks'])."',
-							ward_type='".mysql_real_escape_string($_POST['txt_wardtype'])."',
-							branch_id='".mysql_real_escape_string($_POST['txt_branchid'])."'
+							home_no='".mysqli_real_escape_string($connection,$_POST['txt_homeno'])."',
+							ward_no='".mysqli_real_escape_string($connection,$_POST['txt_wardno'])."',
+							no_of_beds=	'".mysqli_real_escape_string($connection,$_POST['txt_noofbeds'])."',
+							incharge='".mysqli_real_escape_string($connection,$_POST['txt_staffid'])."',
+							remarks='".mysqli_real_escape_string($connection,$_POST['txt_remarks'])."',
+							ward_type='".mysqli_real_escape_string($connection,$_POST['txt_wardtype'])."',
+							branch_id='".mysqli_real_escape_string($connection,$_POST['txt_branchid'])."'
 							 
 						
 						WHERE home_no='$hid' AND ward_no='$wid' AND branch_id='$bid' ";
@@ -118,26 +118,26 @@ function deleteconfirm() // make alert for delete elders details
 			if($_SESSION['usertype']=="admin")
 			{
 				$sql1 ="SELECT * FROM ward  WHERE home_no='$hid' AND ward_no='$wid'";
-				$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-				$row=mysql_fetch_assoc($result);
+				$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+				$row=mysqli_fetch_assoc($result);
 				 $sql6="SELECT name  FROM staff WHERE user_id='$row[incharge]'";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysql.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 				
 			}
 			else
 			{
 			$sql1 ="SELECT * FROM ward  WHERE home_no='$hid' AND ward_no='$wid' AND branch_id='$branch_id' ";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 													 $sql6="SELECT name  FROM staff WHERE user_id='$row[incharge]'";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysql.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 
 			}
 			$sql10 ="SELECT * FROM branch WHERE branch_id='$row[branch_id]'";
-			$result10=mysql_query($sql10) or die ("mysql.error:".mysql_error());
-			$row10=mysql_fetch_assoc($result10);
+			$result10=mysqli_query($connection,$sql10) or die ("mysql.error:".mysqli_error());
+			$row10=mysqli_fetch_assoc($result10);
 			//$wid=$row['ward_no']
 			?>
 			<div class="row-fluid sortable">		
@@ -603,18 +603,18 @@ elseif(($_GET['option']=="view"))
 								{
 									$sql2="SELECT * FROM ward WHERE incharge='$userId'";
 								}
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$bid=$row['branch_id'];
 							?>
 							<tr><td class="center"><?php echo $row['home_no']; ?></td><td class="center"><?php echo $row['ward_no']; ?></td><td class="center"><?php echo $row['ward_type']; ?></td> <td class="center"><?php $sql6="SELECT name  FROM staff WHERE user_id='$row[incharge]'";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysql.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
  echo $row6['name']; ?></td><td><?php 
 								$sql3="SELECT * FROM branch WHERE branch_id='$bid'";
-								$result3=mysql_query($sql3);
-								$row3=mysql_fetch_assoc($result3);
+								$result3=mysqli_query($connection,$sql3);
+								$row3=mysqli_fetch_assoc($result3);
 								$bname=$row3['branch_name'];
 							echo $bname; ?></td><td class="center"><a class="btn btn-success" href="<?php echo $viewpage; ?>&status=wardview&hid=<?php echo $row['home_no']; ?>&wid=<?php echo $row['ward_no']; ?>&bid=<?php echo $row['branch_id']; ?>">
 										<i class="icon-zoom-in icon-white"></i>  

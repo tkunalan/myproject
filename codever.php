@@ -18,8 +18,8 @@ if(isset($_POST['name']))
 				include("config.php");	
 				$txt_code   = $_POST['txt_code'];
 					$sql1="SELECT * FROM user WHERE user_id='$user'";//select userid user table equal to $user
-					$result1=mysql_query($sql1) or die("Error in sql1 ".mysql_error());
-					$row1=mysql_fetch_assoc($result1);
+					$result1=mysqli_query($connection,$sql1) or die("Error in sql1 ".mysqli_error());
+					$row1=mysqli_fetch_assoc($result1);
 						$pwd=$row1['password'];
 				if( $row1['code'] == $txt_code)
 				{

@@ -93,8 +93,8 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="paymentview")
 		{
 			$sql1 ="SELECT * FROM payment WHERE usertype='$utid' AND paymenttype='$ptid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -138,8 +138,8 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="paymentedit")
 		{
 			$sql1 ="SELECT * FROM payment WHERE usertype='$utid' AND paymenttype='$ptid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			?>
 
@@ -213,7 +213,7 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="paymentdelete")
 		{
 			$sql2="DELETE FROM payment  WHERE usertype='$utid' AND paymenttype='$ptid'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 			
 		}
 		//payment delete end

@@ -104,20 +104,20 @@ $utype=$_SESSION['usertype'];
 		
 		$date=date("Y-m-d", strtotime($_POST['txt_date']));
 		$sql8 ="SELECT *  FROM branch WHERE branch_name='$_POST[txt_branchid]'";
-				$result8=mysql_query($sql8) or die ("mysql.error:".mysql_error());
-				$row8=mysql_fetch_assoc($result8);
+				$result8=mysqli_query($connection,$sql8) or die ("mysqli.error:".mysqli_error());
+				$row8=mysqli_fetch_assoc($result8);
 				$barnchid=$row8['branch_id'];
 		$sql2 = "INSERT INTO food(ward_no,home_no,date,breakfast,lunch,dinner,branch_id) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_wardno'])."',
-						'".mysql_real_escape_string($_POST['txt_homeno'])."',
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($_POST['txt_bfast'])."',
-						'".mysql_real_escape_string($_POST['txt_lunch'])."',
-						'".mysql_real_escape_string($_POST['txt_dinner'])."',
-						'".mysql_real_escape_string($barnchid)."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_wardno'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_homeno'])."',
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_bfast'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_lunch'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_dinner'])."',
+						'".mysqli_real_escape_string($connection,$barnchid)."'
 						)";
-		$result2=mysql_query($sql2) or die("Error in sql2 ".mysql_error());
+		$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
 						
 						
 						if($result2)
@@ -135,8 +135,8 @@ $utype=$_SESSION['usertype'];
 	if(isset($_POST['savechanges']))
 	{
 		$sql8 ="SELECT *  FROM branch WHERE branch_name='$_POST[txt_branchid]'";
-				$result8=mysql_query($sql8) or die ("mysql.error:".mysql_error());
-				$row8=mysql_fetch_assoc($result8);
+				$result8=mysqli_query($connection,$sql8) or die ("mysqli.error:".mysqli_error());
+				$row8=mysqli_fetch_assoc($result8);
 				$barnchid=$row8['branch_id'];
 		$hid=$_POST['txt_homeno'];
 		$wid=$_POST['txt_wardno'];
@@ -147,21 +147,21 @@ $utype=$_SESSION['usertype'];
                      
                               $branch_id=$_SESSION['branch_id'];
 					$sql4 ="SELECT *  FROM branch WHERE branch_id='$branch_id'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4);
 			
 		$sql="UPDATE food SET 
-			                ward_no='".mysql_real_escape_string($_POST['txt_wardno'])."',
-							home_no='".mysql_real_escape_string($_POST['txt_homeno'])."',
-							date=	'".mysql_real_escape_string($_POST['txt_date'])."',
-							breakfast='".mysql_real_escape_string($_POST['txt_bfast'])."',
-							lunch='".mysql_real_escape_string($_POST['txt_lunch'])."',
-							dinner='".mysql_real_escape_string($_POST['txt_dinner'])."',
-							branch_id='".mysql_real_escape_string($branch_id)."'
+			                ward_no='".mysqli_real_escape_string($_POST['txt_wardno'])."',
+							home_no='".mysqli_real_escape_string($connection,$_POST['txt_homeno'])."',
+							date=	'".mysqli_real_escape_string($connection,$_POST['txt_date'])."',
+							breakfast='".mysqli_real_escape_string($connection,$_POST['txt_bfast'])."',
+							lunch='".mysqli_real_escape_string($connection,$_POST['txt_lunch'])."',
+							dinner='".mysqli_real_escape_string($connection,$_POST['txt_dinner'])."',
+							branch_id='".mysqli_real_escape_string($connection,$branch_id)."'
 							 
 						
 						WHERE home_no='$hid' AND ward_no='$wid' AND branch_id='$bid' AND date='$did' ";
-			$result=mysql_query($sql);
+			$result=mysqli_query($connection,$sql);
 			
 										
 	}
@@ -228,8 +228,8 @@ function deleteconfirm() // make alert for delete elders details
 		{
 			
 				$sql1 ="SELECT * FROM food  WHERE home_no='$hid' AND ward_no='$wid' AND branch_id='$bid' AND date='$did'";
-				$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-				$row=mysql_fetch_assoc($result);
+				$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+				$row=mysqli_fetch_assoc($result);
 				
 			
 			
@@ -251,8 +251,8 @@ function deleteconfirm() // make alert for delete elders details
                     
                      
 					$sql6 ="SELECT * FROM branch WHERE branch_id='$row[branch_id]'";
-			$result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-			$row6=mysql_fetch_assoc($result6);
+			$result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+			$row6=mysqli_fetch_assoc($result6);
 							 ?>
                     
                
@@ -315,8 +315,8 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="foodedit")
 		{
 			$sql1 ="SELECT * FROM food WHERE home_no='$hid' AND ward_no='$wid'AND branch_id='$branch_id' AND date='$did'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			?>
 
@@ -356,8 +356,8 @@ function deleteconfirm() // make alert for delete elders details
                  <?php 
 				 $branch_id=$_SESSION['branch_id'];
 		  		$sql3 ="SELECT *  FROM staff WHERE branch_id='$branch_id' ";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          		$row3=mysql_fetch_assoc($result3);
+				$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
+          		$row3=mysqli_fetch_assoc($result3);
           ?>
           <div class="control-group">
             <label class="control-label" for="typeahead">Breakfast</label>
@@ -387,8 +387,8 @@ function deleteconfirm() // make alert for delete elders details
                               <?php
                               $branch_id=$_SESSION['branch_id'];
 					$sql4 ="SELECT *  FROM branch WHERE branch_id='$branch_id'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4);
 				?>
           
           <label class="control-label" for="typeahead">Branch Name </label>
@@ -423,7 +423,7 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="fooddelete")
 		{
 			$sql2="DELETE FROM food  WHERE home_no='$hid' AND ward_no='$wid' AND branch_id='$branch_id' AND date='$did'";
-			$result2=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result2=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 		
 		}
 		//food delete end
@@ -538,8 +538,8 @@ function deleteconfirm() // make alert for delete elders details
                  <?php 
 				 $branch_id=$_SESSION['branch_id'];
 		  		$sql3 ="SELECT *  FROM staff WHERE branch_id='$branch_id' ";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          		$row3=mysql_fetch_assoc($result3);
+				$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
+          		$row3=mysqli_fetch_assoc($result3);
           ?>
           <div class="control-group">
             <label class="control-label" for="typeahead">Breakfast</label>
@@ -569,8 +569,8 @@ function deleteconfirm() // make alert for delete elders details
                               <?php
                               $branch_id=$_SESSION['branch_id'];
 					$sql4 ="SELECT *  FROM branch WHERE branch_id='$branch_id'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4);
 				?>
           
           <label class="control-label" for="typeahead">Branch Name </label>

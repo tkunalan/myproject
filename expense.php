@@ -159,18 +159,18 @@ else
 		$date=date("Y-m-d", strtotime($_POST['txt_date']));
 		 $branch_id=$_SESSION['branch_id'];
          $sql3 ="SELECT  branch_name, branch_id FROM branch";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-				$row3=mysql_fetch_assoc($result3);
+				$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
+				$row3=mysqli_fetch_assoc($result3);
 		
 		
 		$sql= "INSERT INTO expense(expense_id,date,expense_type,amount,remarks,branch_id) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_exp'])."',
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($_POST['txt_exptype'])."',
-						'".mysql_real_escape_string($_POST['txt_amount'])."',
-						'".mysql_real_escape_string($_POST['txt_remarks'])."',
-						'".mysql_real_escape_string($branch_id)."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_exp'])."',
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_exptype'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_amount'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_remarks'])."',
+						'".mysqli_real_escape_string($connection,$branch_id)."'
 						)";
 		
 		
@@ -274,8 +274,8 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="expenseview")
 		{
 			$sql1 ="SELECT * FROM expense WHERE expense_id='$eid' ";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -292,8 +292,8 @@ function deleteconfirm() // make alert for delete elders details
                  
                     <?php 
 					$sql6 ="SELECT * FROM branch WHERE branch_id='$row[branch_id]'";
-			$result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-			$row6=mysql_fetch_assoc($result6);
+			$result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+			$row6=mysqli_fetch_assoc($result6);
 							 ?>
                  
                     
@@ -354,8 +354,8 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="expenseedit")
 		{
 			$sql1 ="SELECT * FROM expense WHERE expense_id='$eid' ";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			
 			
@@ -459,7 +459,7 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="expensedelete")
 		{
 			$sql2="DELETE FROM expense  WHERE expense_id='$eid' ";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 			
 		}
 		//expense delete end
@@ -476,10 +476,10 @@ function deleteconfirm() // make alert for delete elders details
 			include ("config.php");
 				
 			$sql1 ="SELECT expense_id FROM expense ORDER BY expense_id  ASC";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			if(mysql_num_rows($result)>0)
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			if(mysqli_num_rows($result)>0)
 			{
-				while($row=mysql_fetch_assoc($result))
+				while($row=mysqli_fetch_assoc($result))
 				{
 					$eid=$row['expense_id'];
 				}
@@ -571,8 +571,8 @@ function deleteconfirm() // make alert for delete elders details
           <?php
 		  $branch_id=$_SESSION['branch_id'];
          $sql3 ="SELECT *  FROM branch WHERE branch_id='$branch_id'";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-				$row3=mysql_fetch_assoc($result3);
+				$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
+				$row3=mysqli_fetch_assoc($result3);
 				?>
                 
                 
@@ -732,15 +732,15 @@ elseif(($_GET['option']=="view"))
 										$sql2="SELECT * FROM expense WHERE branch_id='$branch_id' AND year(date)='$year' AND month(date)='$month'";
 									}
 								}
-								$result=mysql_query($sql2) or die(mysql_error());
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2) or die(mysqli_error());
+								while($row=mysqli_fetch_assoc($result))
 								{
 		                            
 							?>
 							<tr><td class="center"><?php echo $row['expense_id']; ?></td><td class="center"><?php echo $row['date']; ?></td><td class="center"><?php echo $row['expense_type']; ?></td><td class="center"><?php 
 								$sql6 ="SELECT * FROM branch WHERE branch_id='$row[branch_id]'";
-			                   $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-			                    $row6=mysql_fetch_assoc($result6);
+			                   $result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+			                    $row6=mysqli_fetch_assoc($result6);
 								$bname=$row6['branch_name'];
 							echo $bname; ?></td>
                             <?php

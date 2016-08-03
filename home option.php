@@ -20,15 +20,15 @@
 								else
 								{
 								$sql7 ="SELECT *  FROM branch WHERE branch_name='$branchselect'";
-								$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-								$row7=mysql_fetch_assoc($result7);
+								$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+								$row7=mysqli_fetch_assoc($result7);
 								$branch_id=$row7["branch_id"];
 								}
 								
 								
 								  $sql6 ="SELECT DISTINCT ward_type  FROM ward WHERE branch_id='$branch_id'";
-								$result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-								$row6=mysql_fetch_assoc($result6);
+								$result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+								$row6=mysqli_fetch_assoc($result6);
 									do
 									{
 										if($row6['ward_type']==$wardtypeselect)

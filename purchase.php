@@ -209,14 +209,14 @@ else
 		global $purchaseselect;
 		$date=date("Y-m-d", strtotime($_POST['txt_date']));
 		$sql8 ="SELECT *  FROM branch WHERE branch_name='$_POST[txt_branchid]'";
-				$result8=mysql_query($sql8) or die ("mysql.error:".mysql_error());
-				$row8=mysql_fetch_assoc($result8);
+				$result8=mysqli_query($connection,$sql8) or die ("mysqli.error:".mysqli_error());
+				$row8=mysqli_fetch_assoc($result8);
 				$barnchid=$row8['branch_id'];
 		if($purchaseselect=="Asset")
 		{
 		$sql2 = "INSERT INTO purchase(purchase_id,branch_id,purchase_date,item_no,no_of_items,unit_price) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_pno'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_pno'])."',
 						'".mysql_real_escape_string($barnchid)."',
 						'".mysql_real_escape_string($date)."',
 						'".mysql_real_escape_string($_POST['txt_itemno'])."',
@@ -355,27 +355,27 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="purchaseview")
 		{
 			$sql1 ="SELECT * FROM purchase WHERE purchase_id='$pid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			$sql2 ="SELECT * FROM item WHERE item_no='$row[item_no]'";
-			$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-			$row2=mysql_fetch_assoc($result2);
+			$result2=mysqli_query($connection,$sql2) or die ("mysqli.error:".mysqli_error());
+			$row2=mysqli_fetch_assoc($result2);
 			
 			$sql6 ="SELECT * FROM branch WHERE branch_id='$row[branch_id]'";
-			$result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-			$row6=mysql_fetch_assoc($result6);
+			$result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+			$row6=mysqli_fetch_assoc($result6);
 			if($row2['item_type']=="Asset")
 			{
 				$sql7 ="SELECT * FROM asset WHERE purchase_id='$pid'";
-				$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-				$row7=mysql_fetch_assoc($result7);
+				$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+				$row7=mysqli_fetch_assoc($result7);
 			}
 			else if($row2['item_type']=="Consumable")
 			{
 				$sql7 ="SELECT * FROM consumable WHERE purchase_id='$pid'";
-				$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-				$row7=mysql_fetch_assoc($result7);
+				$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+				$row7=mysqli_fetch_assoc($result7);
 			}
 			?>
 			<div class="row-fluid sortable">		
@@ -470,27 +470,27 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="purchaseedit")
 		{
 			$sql1 ="SELECT * FROM purchase WHERE purchase_id='$pid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			$sql2 ="SELECT * FROM item WHERE item_no='$row[item_no]'";
-			$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-			$row2=mysql_fetch_assoc($result2);
+			$result2=mysqli_query($connection,$sql2) or die ("mysqli.error:".mysqli_error());
+			$row2=mysqli_fetch_assoc($result2);
 			
 			$sql6 ="SELECT * FROM branch WHERE branch_id='$row[branch_id]'";
-			$result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-			$row6=mysql_fetch_assoc($result6);
+			$result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+			$row6=mysqli_fetch_assoc($result6);
 			if($row2['item_type']=="Asset")
 			{
 				$sql7 ="SELECT * FROM asset WHERE purchase_id='$pid'";
-				$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-				$row7=mysql_fetch_assoc($result7);
+				$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+				$row7=mysqli_fetch_assoc($result7);
 			}
 			else if($row2['item_type']=="Consumable")
 			{
 				$sql7 ="SELECT * FROM consumable WHERE purchase_id='$pid'";
-				$result7=mysql_query($sql7) or die ("mysql.error:".mysql_error());
-				$row7=mysql_fetch_assoc($result7);
+				$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+				$row7=mysqli_fetch_assoc($result7);
 			}
 			?>
 
@@ -624,7 +624,7 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="purchasedelete")
 		{
 			$sql2="DELETE FROM item  WHERE purchase_id='$pid'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 			
 		}
 		//purchase delete end
@@ -640,10 +640,10 @@ function deleteconfirm() // make alert for delete elders details
 		{
 			include ("config.php");
 			$sql1 ="SELECT purchase_id FROM purchase ORDER BY purchase_id  ASC";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			if(mysql_num_rows($result)>0)
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			if(mysqli_num_rows($result)>0)
 			{
-				while($row=mysql_fetch_assoc($result))
+				while($row=mysqli_fetch_assoc($result))
 				{
 					$pid=$row['purchase_id'];
 				}
@@ -798,8 +798,8 @@ function deleteconfirm() // make alert for delete elders details
               <?php
 					$branch_id=$_SESSION['branch_id'];
 					$sql4 ="SELECT *  FROM branch WHERE branch_id='$branch_id'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4);
 					?>
 	 <input type="text" name="txt_branchid" class="input-xlarge focus" id="txt_branchid" readonly value="<?php echo $row4['branch_name'];?>"> 
            </div>
@@ -969,19 +969,19 @@ elseif(($_GET['option']=="view"))
 									
 									$sql2="SELECT * FROM purchase WHERE branch_id='$branch_id' AND month(purchase_date)='$month' AND year(purchase_date)='$year'";
 								}
-								$result=mysql_query($sql2) or die(mysql_error());
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2) or die(mysqli_error());
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$branch_id=$row['branch_id'];
 									$sql5 ="SELECT * FROM item WHERE item_no='$row[item_no]'";
-									$result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-									$row5=mysql_fetch_assoc($result5);
+									$result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+									$row5=mysqli_fetch_assoc($result5);
 									
 							?>
 							<tr><td class="center"><?php echo $row['purchase_id']; ?></td><td class="center"><?php echo $row['purchase_date']; ?></td><td class="center"><?php echo $row5['item_name']; ?></td><td class="center"><?php 
 								$sql3="SELECT * FROM branch WHERE branch_id='$branch_id'";
-								$result3=mysql_query($sql3);
-								$row3=mysql_fetch_assoc($result3);
+								$result3=mysqli_query($sql3);
+								$row3=mysqli_fetch_assoc($result3);
 								$bname=$row3['branch_name'];
 							echo $bname; ?></td>
                               <?php

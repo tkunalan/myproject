@@ -193,18 +193,18 @@ else
 		$eid=$_POST['txt_eventid'];
 		/*$bid=$_POST['txt_branchid'];
 		$sql4 ="SELECT *  FROM branch WHERE branch_name='$bid'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
+				$result4=mysql_query($sql4) or die ("mysqli.error:".mysql_error());
 				$row4=mysql_fetch_assoc($result4);*/
 		
 		$sql="UPDATE event SET 
-							event_id='".mysql_real_escape_string($_POST['txt_eventid'])."',
-							date='".mysql_real_escape_string($_POST['txt_date'])."',
-							event='".mysql_real_escape_string($_POST['txt_event'])."',
-							remarks='".mysql_real_escape_string($_POST['txt_remarks'])."'
+							event_id='".mysqli_real_escape_string($connection,$_POST['txt_eventid'])."',
+							date='".mysqli_real_escape_string($connection,$_POST['txt_date'])."',
+							event='".mysqli_real_escape_string($connection,$_POST['txt_event'])."',
+							remarks='".mysqli_real_escape_string($connection,$_POST['txt_remarks'])."'
 							 
 						
 						WHERE event_id='$eid'";
-			$result=mysql_query($sql);
+			$result=mysqli_query($sql);
 		
 			
 										
@@ -266,11 +266,11 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="eventview")
 		{
 			$sql1 ="SELECT * FROM event WHERE event_id='$eid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			$sql4 ="SELECT *  FROM branch WHERE branch_id='$row[branch_id]'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -347,8 +347,8 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="eventedit")
 		{
 			$sql1 ="SELECT * FROM event WHERE event_id='$eid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			
 			?>
@@ -415,7 +415,7 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="eventdelete")
 		{
 			$sql2="DELETE FROM event  WHERE event_id='$eid'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 			
 		}
 		//event delete end
@@ -644,13 +644,13 @@ elseif(($_GET['option']=="view"))
 									
 									$sql2="SELECT * FROM event WHERE branch_id='$branch_id' AND month(date)='$month' AND year(date)='$year'";
 								}
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$eid=$row['event_id'];
 									$sql4 ="SELECT *  FROM branch WHERE branch_id='$row[branch_id]'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4);
 		                            
 							?>
 							<tr><td class="center"><?php echo $row['event_id']; ?></td><td class="center"><?php echo $row['user_id']; ?></td><td class="center"><?php echo $row4['branch_name']; ?></td><td class="center"><?php echo $row['date']; ?></td>

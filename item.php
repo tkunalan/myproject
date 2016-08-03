@@ -15,11 +15,11 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin'))
 	{
 		$sql2 = "INSERT INTO item(item_no,item_name,item_type) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_itemno'])."',
-						'".mysql_real_escape_string($_POST['txt_itemname'])."',
-						'".mysql_real_escape_string($_POST['txt_itemtype'])."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_itemno'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_itemname'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_itemtype'])."'
 						)";
-		$result2=mysql_query($sql2) or die("Error in sql2 ".mysql_error());
+		$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
 						
 						
 						if($result2)
@@ -30,7 +30,7 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin'))
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 	}
 	
@@ -39,13 +39,13 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin'))
 		
 		$tid=$_POST['txt_itemno'];
 		$sql="UPDATE item SET 
-							item_no='".mysql_real_escape_string($_POST['txt_itemno'])."',
-							item_name=	'".mysql_real_escape_string($_POST['txt_itemname'])."',
-							item_type=	'".mysql_real_escape_string($_POST['txt_itemtype'])."'
-							 
+							item_no='".mysqli_real_escape_string($connection,$_POST['txt_itemno'])."',
+							item_name=	'".mysqli_real_escape_string($connection,$_POST['txt_itemname'])."',
+							item_type=	'".mysqli_real_escape_string($connection,$_POST['txt_itemtype'])."'
+							
 						
 						WHERE item_no='$tid'";
-			$result=mysql_query($sql);
+			$result=mysqli_query($connection,$sql);
 			
 										
 	}
@@ -93,8 +93,8 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="itemview")
 		{
 			$sql1 ="SELECT * FROM item WHERE item_no='$tid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -138,8 +138,8 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="itemedit")
 		{
 			$sql1 ="SELECT * FROM item WHERE item_no='$tid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			?>
 
@@ -211,7 +211,7 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="itemdelete")
 		{
 			$sql2="DELETE FROM item  WHERE item_no='$tid'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysql :".mysqli_error());
 			
 		}
 		//item delete end
@@ -227,10 +227,10 @@ function deleteconfirm() // make alert for delete elders details
 		{
 			include ("config.php");
 			$sql1 ="SELECT item_no FROM item ORDER BY item_no  ASC";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			if(mysql_num_rows($result)>0)
+			$result=mysqli_query($connection,$sql1) or die ("mysql.error:".mysqli_error());
+			if(mysqli_num_rows($result)>0)
 			{
-				while($row=mysql_fetch_assoc($result))
+				while($row=mysqli_fetch_assoc($result))
 				{
 					$tid=$row['item_no'];
 				}
@@ -366,15 +366,15 @@ elseif(($_GET['option']=="view"))
 								{
 									$sql2="SELECT * FROM branch WHERE branch_id='$bid'";
 								}
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$tid=$row['item_no'];
 							?>
 							<tr><td class="center"><?php echo $row['item_no']; ?></td><td class="center"><?php echo $row['item_name']; ?></td><td class="center"><?php echo $row['item_type']; ?></td><?php 
 								$sql3="SELECT * FROM branch WHERE branch_id='$bid'";
-								$result3=mysql_query($sql3);
-								$row3=mysql_fetch_assoc($result3);
+								$result3=mysqli_query($connection,$sql3);
+								$row3=mysqli_fetch_assoc($result3);
 								$bname=$row3['branch_name'];
 							//echo $bname; ?></td><td class="center"><a class="btn btn-success" 
                             href="<?php echo $viewpage; ?>&status=itemview&tid=<?php echo $row['item_no']; ?>">

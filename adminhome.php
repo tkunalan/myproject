@@ -218,8 +218,8 @@ function password()
              <!--////////////////////////////////////////////////////////////////-->
               <?php
 		 	$sql1="SELECT mess_id FROM message WHERE to_id='$username' AND status='1'";
-			$result=mysql_query($sql1);
-			$n=mysql_num_rows($result);
+			$result=mysqli_query($connection,$sql1);
+			$n=mysqli_num_rows($result);
 			
 			?>
         <div id='cssmenu'>
