@@ -245,8 +245,8 @@ else
 		$pid=$_POST['txt_purchaseid'];
 		$noitem=$_POST['txt_noofitems'];
 			 $sql4="SELECT * FROM purchase WHERE purchase_id='$pid' ";
-				$result4=mysql_query($sql4);
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4);
+				$row4=mysqli_fetch_assoc($result4);
 									
 			if($row4['no_of_items']<$noitem)
 			{
@@ -255,24 +255,24 @@ else
 			else
 			{
 									$sql5="SELECT *  FROM staff WHERE name='$uid' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 		
 					$sql= "INSERT INTO supply(supply_id,purchase_id,user_id,date,no_of_items,home_no,ward_no) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_supplyid'])."',
-						'".mysql_real_escape_string($_POST['txt_purchaseid'])."',
-						'".mysql_real_escape_string($row5['user_id'])."',
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($_POST['txt_noofitems'])."',
-						'".mysql_real_escape_string($_POST['txt_homeno'])."',
-						'".mysql_real_escape_string($_POST['txt_wardno'])."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_supplyid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_purchaseid'])."',
+						'".mysqli_real_escape_string($connection,$row5['user_id'])."',
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_noofitems'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_homeno'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_wardno'])."'
 						)";
 						
 						$noitem=$_POST['txt_noofitems'];
 					 $sql4="SELECT * FROM purchase WHERE purchase_id='$pid' ";
-				$result4=mysql_query($sql4);
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4);
+				$row4=mysqli_fetch_assoc($result4);
 					$row4['no_of_items']=$row4['no_of_items']-$noitem;
 						
 		$sql1="UPDATE purchase SET
@@ -282,10 +282,10 @@ else
 						WHERE purchase_id='$_POST[txt_purchaseid]'";
 			
 			
-			$result1=mysql_query($sql1);
+			$result1=mysqli_query($connection,$sql1);
 		
 												
-				$result=mysql_query($sql) or die("Error in sql ".mysql_error());
+				$result=mysqli_query($connection,$sql) or die("Error in sql ".mysqli_error());
 					if($result && $result1)
 						{
 							
@@ -295,7 +295,7 @@ else
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 			}
 	}
@@ -308,21 +308,21 @@ else
 		$uid=$_POST['txt_userid'];
 		//$noitem=$_POST['txt_noofitems'];
 		$sql5="SELECT *  FROM staff WHERE name='$uid' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 		
 		$sql="UPDATE supply SET 
-							supply_id='".mysql_real_escape_string($_POST['txt_supplyid'])."',
-							purchase_id='".mysql_real_escape_string($_POST['txt_purchaseid'])."',
-							user_id='".mysql_real_escape_string($row5['user_id'])."',
-							date='".mysql_real_escape_string($_POST['txt_date'])."',
-							no_of_items='".mysql_real_escape_string($_POST['txt_noofitems'])."',
-							home_no='".mysql_real_escape_string($_POST['txt_homeno'])."',
-							ward_no='".mysql_real_escape_string($_POST['txt_wardno'])."'
+							supply_id='".mysqli_real_escape_string($connection,$_POST['txt_supplyid'])."',
+							purchase_id='".mysqli_real_escape_string($connection,$_POST['txt_purchaseid'])."',
+							user_id='".mysqli_real_escape_string($connection,$row5['user_id'])."',
+							date='".mysqli_real_escape_string($connection,$_POST['txt_date'])."',
+							no_of_items='".mysqli_real_escape_string($connection,$_POST['txt_noofitems'])."',
+							home_no='".mysqli_real_escape_string($connection,$_POST['txt_homeno'])."',
+							ward_no='".mysqli_real_escape_string($connection,$_POST['txt_wardno'])."'
 							 
 						
 						WHERE supply_id='$sid'";
-			$result=mysql_query($sql);
+			$result=mysqli_query($connection,$sql);
 		
 			
 										
@@ -387,11 +387,11 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="supplyview")
 		{
 			$sql1 ="SELECT * FROM supply WHERE supply_id='$sid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			$sql5="SELECT *  FROM staff WHERE user_id='$row[user_id]' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -470,12 +470,12 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="supplyedit")
 		{
 			$sql1 ="SELECT * FROM supply WHERE supply_id='$sid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			$sql5="SELECT *  FROM staff WHERE user_id='$row[user_id]' ";
-				                     $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                     $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 			
 			?>
 
@@ -572,11 +572,11 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="supplydelete")
 		{
 				$sql5="SELECT * FROM supply WHERE supply_id='$sid' ";
-				$result5=mysql_query($sql5);
-				$row5=mysql_fetch_assoc($result5);
+				$result5=mysqli_query($connection,$sql5);
+				$row5=mysqli_fetch_assoc($result5);
 				$sql4="SELECT * FROM purchase WHERE purchase_id='$row5[purchase_id]' ";
-				$result4=mysql_query($sql4);
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4);
+				$row4=mysqli_fetch_assoc($result4);
 					$row4['no_of_items']=$row4['no_of_items']+$row5['no_of_items'];
 						
 		$sql1="UPDATE purchase SET
@@ -586,9 +586,9 @@ function deleteconfirm() // make alert for delete elders details
 						WHERE purchase_id='$row5[purchase_id]'";
 			
 			
-			$result1=mysql_query($sql1);
+			$result1=mysqli_query($connection,$sql1);
 			$sql2="DELETE FROM supply  WHERE supply_id='$sid'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 			
 		}
 		//supply delete end
@@ -605,10 +605,10 @@ function deleteconfirm() // make alert for delete elders details
 			
 			include ("config.php");
 			$sql1 ="SELECT supply_id FROM supply ORDER BY supply_id  ASC";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			if(mysql_num_rows($result)>0)
+			$result=mysqli_query($sql1) or die ("mysqli.error:".mysqli_error());
+			if(mysqli_num_rows($result)>0)
 			{
-				while($row=mysql_fetch_assoc($result))
+				while($row=mysqli_fetch_assoc($result))
 				{
 					$sid=$row['supply_id'];
 				}
@@ -697,8 +697,8 @@ function deleteconfirm() // make alert for delete elders details
 			if($supplyselect=="Asset")
 			{
 				$sql4="SELECT * FROM item WHERE item_type='Asset' ";
-				$result4=mysql_query($sql4);
-				$row4=mysql_fetch_assoc($result4);	
+				$result4=mysqli_query($connection,$sql4);
+				$row4=mysqli_fetch_assoc($result4);	
 				do
 				{
 					if($row4['item_name']==$itemselect)
@@ -710,13 +710,13 @@ function deleteconfirm() // make alert for delete elders details
 						echo "<option value=".$row4['item_no'].">".$row4['item_name']."</option>";
 					 }
 				}
-				while($row4=mysql_fetch_assoc($result4));
+				while($row4=mysqli_fetch_assoc($result4));
 			}
 			if($supplyselect=="Consumable")
 			{
 				$sql4="SELECT * FROM item WHERE item_type='Consumable' ";
-				$result4=mysql_query($sql4);
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4);
+				$row4=mysqli_fetch_assoc($result4);
 				do
 				{
 					if($row4['item_name']==$itemselect)
@@ -728,7 +728,7 @@ function deleteconfirm() // make alert for delete elders details
 						echo "<option value=".$row4['item_no'].">".$row4['item_name']."</option>";
 					 }
 				}
-				while($row4=mysql_fetch_assoc($result4));
+				while($row4=mysqli_fetch_assoc($result4));
 			}			
 			?>
             </select>
@@ -747,12 +747,12 @@ function deleteconfirm() // make alert for delete elders details
 			echo "<select id='txt_purchaseid' name='txt_purchaseid' onchange='purchasesel()' data-rel='chosen'>";
                                  echo "<option></option>";
 				$sql5="SELECT * FROM item WHERE item_name='$itemselect' ";
-				$result5=mysql_query($sql5);
-				$row5=mysql_fetch_assoc($result5);
+				$result5=mysqli_query($connection,$sql5);
+				$row5=mysqli_fetch_assoc($result5);
 				
            $sql4="SELECT * FROM purchase WHERE item_no='$row5[item_no]' AND no_of_items!='0' AND branch_id='$branch_id' ";
-				$result4=mysql_query($sql4);
-				$row4=mysql_fetch_assoc($result4);	
+				$result4=mysqli_query($connection,$sql4);
+				$row4=mysqli_fetch_assoc($result4);	
 				do
 				{
 					if($row4['purchase_id']==$purchaseselect)
@@ -764,7 +764,7 @@ function deleteconfirm() // make alert for delete elders details
 						echo "<option value=".$row4['purchase_id'].">".$row4['purchase_id']."</option>";
 					 }
 				}
-				while($row4=mysql_fetch_assoc($result4));
+				while($row4=mysqli_fetch_assoc($result4));
 				echo "</select>";
               ?>
             </div>
@@ -772,8 +772,8 @@ function deleteconfirm() // make alert for delete elders details
           <?php
 		  $name=$_SESSION['username'];
 		  $sql5="SELECT *  FROM staff WHERE user_id='$name' ";
-		$result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-      $row5=mysql_fetch_assoc($result5);
+		$result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+      $row5=mysqli_fetch_assoc($result5);
 		  
 		  ?>
       		  
@@ -799,8 +799,8 @@ function deleteconfirm() // make alert for delete elders details
 				
 				
            $sql4="SELECT DISTINCT home_no FROM ward WHERE branch_id='$branch_id' ";
-				$result4=mysql_query($sql4);
-				$row4=mysql_fetch_assoc($result4);	
+				$result4=mysqli_query($connection,$sql4);
+				$row4=mysqli_fetch_assoc($result4);	
 				do
 				{
 					if($row4['home_no']==$homeselect)
@@ -812,7 +812,7 @@ function deleteconfirm() // make alert for delete elders details
 						echo "<option value=".$row4['home_no'].">".$row4['home_no']."</option>";
 					 }
 				}
-				while($row4=mysql_fetch_assoc($result4));
+				while($row4=mysqli_fetch_assoc($result4));
 				echo "</select>";
               ?>
               
@@ -838,15 +838,15 @@ function deleteconfirm() // make alert for delete elders details
 				
 				
            $sql4="SELECT DISTINCT ward_no FROM ward WHERE branch_id='$branch_id' AND home_no='$homeselect' AND no_of_beds!='0' ";
-				$result4=mysql_query($sql4);
-				$row4=mysql_fetch_assoc($result4);	
+				$result4=mysqli_query($connection,$sql4);
+				$row4=mysqli_fetch_assoc($result4);	
 				do
 				{
 					
 						echo "<option value=".$row4['ward_no'].">".$row4['ward_no']."</option>";
 					 
 				}
-				while($row4=mysql_fetch_assoc($result4));
+				while($row4=mysqli_fetch_assoc($result4));
 				echo "</select>";
               ?>
               

@@ -161,8 +161,8 @@ if(isset($_GET['status']))
 		if($_GET['status']=="salaryview")
 		{
 			$sql1 ="SELECT * FROM staff WHERE user_id='$sid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span12">
@@ -212,8 +212,8 @@ if(isset($_GET['status']))
                         <tr><td>Branch</td><td><?php 
 										$bid=$row['branch_id'];
 										$sql2 ="SELECT branch_name FROM branch WHERE branch_id='$bid'";
-										$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-										$row2=mysql_fetch_assoc($result2);
+										$result2=mysqli_query($connection,$sql2) or die ("mysqli.error:".mysqli_error());
+										$row2=mysqli_fetch_assoc($result2);
 						
 										echo $row2['branch_name']; ?></td>
                         <tr><td>Basic Salary</td><td>Rs <?php echo $row['basic_salary']; ?>/=</td>
@@ -315,8 +315,8 @@ if(isset($_GET['status']))
 								{
 									$sql2="SELECT * FROM staff WHERE branch_id='$branch_id'";
 								}
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$bid=$row['branch_id'];
 							?>
@@ -330,11 +330,11 @@ if(isset($_GET['status']))
 								//echo $sdate;
 								$userid=$row['user_id'];
 								$sql3="SELECT * FROM duty WHERE user_id='$userid' AND month(date)='$month' AND year(date)='$year'";
-								$result3=mysql_query($sql3);
+								$result3=mysqli_query($connection,$sql3);
 								$timest=date("H:i:s",strtotime( 000000));
 								$timeen=date("H:i:s",strtotime( 235959));
 								$count=0;
-								while($row3=mysql_fetch_assoc($result3))//claculate overtime amount
+								while($row3=mysqli_fetch_assoc($result3))//claculate overtime amount
 								{
 									if(($row3['departure_time']-$row3['arrival_time'])<0)
 									{
@@ -355,14 +355,14 @@ if(isset($_GET['status']))
 								
 								//echo $time1;
 								$sql5="SELECT * FROM user WHERE user_id='$userid'";
-								$result5 =mysql_query($sql5);
-								$row5= mysql_fetch_assoc($result5);
+								$result5 =mysqli_query($connection,$sql5);
+								$row5= mysqli_fetch_assoc($result5);
 								$sql4="SELECT * FROM payment WHERE usertype='$row5[usertype]' AND paymenttype='overtime'";
-								$result4=mysql_query($sql4);
-								$row4=mysql_fetch_assoc($result4);
+								$result4=mysqli_query($connection,$sql4);
+								$row4=mysqli_fetch_assoc($result4);
 								$sql6="SELECT * FROM payment WHERE usertype='admin' AND paymenttype='allowance'";
-								$result6=mysql_query($sql6);
-								$row6=mysql_fetch_assoc($result6);
+								$result6=mysqli_query($connection,$sql6);
+								$row6=mysqli_fetch_assoc($result6);
 								
 								$overtime=$row4['amount']*$count;
 								

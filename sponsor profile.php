@@ -92,8 +92,8 @@ if($usertype="sponsor")
 
 
 $sql1="SELECT * FROM sponsor WHERE user_id='$username'";
-		$result=mysql_query($sql1) or die("Error in mysql:".mysql_error());
-		$row=mysql_fetch_assoc($result);
+		$result=mysqli_query($connection,$sql1) or die("Error in mysqli:".mysqli_error());
+		$row=mysqli_fetch_assoc($result);
 		
 		if(isset($_POST['editsubmit']))
 		{
@@ -116,7 +116,7 @@ $sql1="SELECT * FROM sponsor WHERE user_id='$username'";
 			
 			
 			}
-			$result = mysql_query($sql2) or die('Query failed, '. mysql_error());
+			$result = mysqli_query($connection,$sql2) or die('Query failed, '. mysqli_error());
 			
 			
 		if ($result)
@@ -129,7 +129,7 @@ $sql1="SELECT * FROM sponsor WHERE user_id='$username'";
 			}
 			else 
 			{
-				die ( mysql_error () );
+				die ( mysqli_error () );
 			}
 Exit;		
 }
@@ -141,14 +141,14 @@ elseif(isset($_POST['changesubmit']))
 		if($newpass==$cnewpass)
 		{
 			$sql1="SELECT password FROM user WHERE user_id='$username'";
-			$result=mysql_query($sql1) or die("error in my sql".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die("error in my sql".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			if($oldpass==$row['password'])
 			{
 				$sql2= "UPDATE user
 				SET password='$newpass'
 				WHERE user_id = '$username'";
-				$result=mysql_query($sql2);
+				$result=mysqli_query($sql2);
 				if ($result)
 				{
 					echo '<table bgcolor="#FF0000"><tr align="center" ><td><p align="center"><strong><font color="#FF0000">Your password changed successfully</font></strong></p></td></tr></table>';
@@ -158,7 +158,7 @@ elseif(isset($_POST['changesubmit']))
 				}
 				else 
 				{
-					die ( mysql_error () );
+					die ( mysqli_error () );
 				}
 				exit;
 				

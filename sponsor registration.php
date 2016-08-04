@@ -154,25 +154,25 @@ else
 		
 		$sql= "INSERT INTO sponsor(user_id,address,country,name,contact_no,date,photo) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_userid'])."',
-						'".mysql_real_escape_string($_POST['txt_address'])."',
-						'".mysql_real_escape_string($_POST['txt_country'])."',
-						'".mysql_real_escape_string($_POST['txt_name'])."',
-						'".mysql_real_escape_string($_POST['txt_contactno'])."',
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($_POST['img_photo'])."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_userid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_address'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_country'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_name'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_contactno'])."',
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$_POST['img_photo'])."'
 						)";
 		$sql2 = "INSERT INTO user(user_id,password,usertype) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_userid'])."',
-						'".mysql_real_escape_string($_POST['txt_pass'])."',
-						'".mysql_real_escape_string($_POST['txt_usertype'])."')";
-						$result2=mysql_query($sql2) or die("Error in sql2 ".mysql_error());
+						'".mysqli_real_escape_string($connection,$_POST['txt_userid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_pass'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_usertype'])."')";
+						$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
 		
 		
 		
 												
-				$result=mysql_query($sql) or die("Error in sql ".mysql_error());
+				$result=mysqli_query($connection,$sql) or die("Error in sql ".mysqli_error());
 					if($result and $result2)
 						{
 							
@@ -180,7 +180,7 @@ else
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 	
 	}
@@ -192,21 +192,21 @@ else
 		$uid=$_POST['txt_userid'];
 		
 		$sql="UPDATE sponsor SET 
-							user_id='".mysql_real_escape_string($_POST['txt_userid'])."',
-							address='".mysql_real_escape_string($_POST['txt_address'])."',
-							country='".mysql_real_escape_string($_POST['txt_country'])."',
-							name='".mysql_real_escape_string($_POST['txt_name'])."',
-							contact_no='".mysql_real_escape_string($_POST['txt_contactno'])."',
-							date='".mysql_real_escape_string($_POST['txt_date'])."',
-							photo='".mysql_real_escape_string($_POST['img_photo'])."'
+							user_id='".mysqli_real_escape_string($connection,$_POST['txt_userid'])."',
+							address='".mysqli_real_escape_string($connection,$_POST['txt_address'])."',
+							country='".mysqli_real_escape_string($connection,$_POST['txt_country'])."',
+							name='".mysqli_real_escape_string($connection,$_POST['txt_name'])."',
+							contact_no='".mysqli_real_escape_string($connection,$_POST['txt_contactno'])."',
+							date='".mysqli_real_escape_string($connection,$_POST['txt_date'])."',
+							photo='".mysqli_real_escape_string($connection,$_POST['img_photo'])."'
 							 
 						
 						WHERE usid_id='$uid'";
-			$result=mysql_query($sql);
+			$result=mysqli_query($connection,$sql);
 			$sql1="UPDATE user SET 
-							usertype='".mysql_real_escape_string($_POST['txt_usertype'])."'
+							usertype='".mysqli_real_escape_string($connection,$_POST['txt_usertype'])."'
 						WHERE user_id='$uid'";
-			$result=mysql_query($sql1);
+			$result=mysqli_query($connection,$sql1);
 			
 										
 	}
@@ -270,8 +270,8 @@ function deleteconfirm() // make alert for delete elders details
 		if($_GET['status']=="sponsorview")
 		{
 			$sql1 ="SELECT * FROM sponsor WHERE user_id='$uid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			?>
 			<div class="row-fluid sortable">		
 				<div class="box span6">
@@ -346,12 +346,12 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="sponsoredit")
 		{
 			$sql1 ="SELECT * FROM sponsor WHERE user_id='$uid'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			$sql2 ="SELECT * FROM user WHERE user_id='$uid'";
-			$result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-			$row2=mysql_fetch_assoc($result2);
+			$result2=mysqli_query($connection,$sql2) or die ("mysqli.error:".mysqli_error());
+			$row2=mysqli_fetch_assoc($result2);
 			
 			?>
 
@@ -473,7 +473,7 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="sponsordelete")
 		{
 			$sql2="DELETE FROM sponsor  WHERE user_id='$uid'";
-			$result=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 			
 		}
 		//sponsor delete end
@@ -702,8 +702,8 @@ elseif(($_GET['option']=="view"))
 								{
 									//$sql2="SELECT * FROM branch WHERE branch_id='$bid'";
 								}
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$uid=$row['user_id'];
 		                            

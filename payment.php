@@ -15,11 +15,11 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' || $_SESSION[
 	{
 		$sql2 = "INSERT INTO payment(usertype,paymenttype,amount) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_usertype'])."',
-						'".mysql_real_escape_string($_POST['txt_paytype'])."',
-						'".mysql_real_escape_string($_POST['txt_amount'])."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_usertype'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_paytype'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_amount'])."'
 						)";
-		$result2=mysql_query($sql2) or die("Error in sql2 ".mysql_error());
+		$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
 						
 						
 						if($result2)
@@ -31,7 +31,7 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' || $_SESSION[
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 	}
 	
@@ -41,13 +41,13 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' || $_SESSION[
 		$utid=$_POST['txt_usertype'];
 		$ptid=$_POST['txt_paytype'];
 		$sql="UPDATE payment SET 
-							usertype='".mysql_real_escape_string($_POST['txt_usertype'])."',
-							paymenttype='".mysql_real_escape_string($_POST['txt_paytype'])."',
-							amount='".mysql_real_escape_string($_POST['txt_amount'])."'
+							usertype='".mysqli_real_escape_string($connection,$_POST['txt_usertype'])."',
+							paymenttype='".mysqli_real_escape_string($connection,$_POST['txt_paytype'])."',
+							amount='".mysqli_real_escape_string($connection,$_POST['txt_amount'])."'
 							 
 						
 						WHERE usertype='$utid' AND paymenttype='$ptid'";
-			$result=mysql_query($sql);
+			$result=mysqli_query($connection,$sql);
 			
 										
 	}
@@ -359,8 +359,8 @@ elseif(($_GET['option']=="view"))
 								{
 									//$sql2="SELECT * FROM branch WHERE branch_id='$bid'";
 								}
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$utid=$row['usertype'];
 		                            $ptid=$row['paymenttype'];

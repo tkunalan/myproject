@@ -872,9 +872,9 @@ function deleteconfirm() // make alert for delete elders details
 											}
 										}
 										}
-										while($row8=mysql_fetch_assoc($result8));
+										while($row8=mysqli_fetch_assoc($result8));
 									}
-									while($row5=mysql_fetch_assoc($result5));									
+									while($row5=mysqli_fetch_assoc($result5));									
 								echo "</select>";
 								}
 									?>										
@@ -1264,8 +1264,8 @@ elseif(($_GET['option']=="view"))
                             
 							<tr><td class="center" align="center"><?php echo $row['admission_no']; ?></td><td class="center" align="center"><?php echo $row['name']; ?></td><td class="center" align="center"><?php echo $row['address']; ?></td><td class="center" align="center"><?php echo $row['home_no']; ?></td><td class="center" align="center"><?php echo $row['ward_no']; ?></td><td class="center" align="center"><?php echo $row['status']; ?></td><td class="center" align="center"><?php 
 								$sql3="SELECT * FROM branch WHERE branch_id='$bid'";
-								$result3=mysql_query($sql3);
-								$row3=mysql_fetch_assoc($result3);
+								$result3=mysqli_query($connection,$sql3);
+								$row3=mysqli_fetch_assoc($result3);
 								$bname=$row3['branch_name'];
 							echo $bname; ?></td>
                             <?php

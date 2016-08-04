@@ -26,8 +26,8 @@
 	if(isset($_POST['save']))
 	{
 		$sql8 ="SELECT *  FROM branch WHERE branch_name='$_POST[txt_branchid]'";
-				$result8=mysql_query($sql8) or die ("mysql.error:".mysql_error());
-				$row8=mysql_fetch_assoc($result8);
+				$result8=mysqli_query($connection,$sql8) or die ("mysqli.error:".mysqli_error());
+				$row8=mysqli_fetch_assoc($result8);
 				$barnchid=$row8['branch_id'];
 		$sql2 = "INSERT INTO ward(home_no,ward_no,no_of_beds,incharge,remarks,ward_type,branch_id) 
 						VALUES(
@@ -71,7 +71,7 @@
 							 
 						
 						WHERE home_no='$hid' AND ward_no='$wid' AND branch_id='$bid' ";
-			$result=mysql_query($sql);
+			$result=mysqli_query($connection,$sql);
 			
 										
 	}
@@ -181,8 +181,8 @@ function deleteconfirm() // make alert for delete elders details
 		elseif($_GET['status']=="wardedit")
 		{
 			$sql1 ="SELECT * FROM ward WHERE home_no='$hid' AND ward_no='$wid'AND branch_id='$branch_id'";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			
 			?>
 
@@ -225,8 +225,8 @@ function deleteconfirm() // make alert for delete elders details
                  <?php 
 				 $branch_id=$_SESSION['branch_id'];
 		  		$sql3 ="SELECT *  FROM staff WHERE branch_id='$branch_id' ";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          		$row3=mysql_fetch_assoc($result3);
+				$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
+          		$row3=mysqli_fetch_assoc($result3);
           ?>
           <div class="control-group">
             <label class="control-label" for="typeahead">Staff Name</label>
@@ -238,11 +238,11 @@ function deleteconfirm() // make alert for delete elders details
 									do
 									{
 										$sql4="SELECT *  FROM user WHERE user_id='$row3[user_id]' AND usertype='ward-incharge' ";
-				                          $result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-          		                         $row4=mysql_fetch_assoc($result4);
+				                          $result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+          		                         $row4=mysqli_fetch_assoc($result4);
 										 $sql5="SELECT *  FROM staff WHERE user_id='$row4[user_id]' ";
-				                          $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                          $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										/* if($row['incharge']=='0')
 										 {
 											echo "<option value=".$row4['user_id'].">".$row5['name']."</option>";
@@ -333,13 +333,13 @@ function deleteconfirm() // make alert for delete elders details
 			$result2=mysql_query($sql2) or die("Error in mysql :".mysql_error());*/
 		 $branch_id=$_SESSION['branch_id'];	
 		$sql2="UPDATE ward SET 
-							no_of_beds=	'".mysql_real_escape_string('0')."',
-							incharge='".mysql_real_escape_string('0')."',
-							remarks='".mysql_real_escape_string('0')."',
-							ward_type='".mysql_real_escape_string('0')."'							 
+							no_of_beds=	'".mysqli_real_escape_string('0')."',
+							incharge='".mysqli_real_escape_string('0')."',
+							remarks='".mysqli_real_escape_string('0')."',
+							ward_type='".mysqli_real_escape_string('0')."'							 
 						
 						WHERE home_no='$hid' AND ward_no='$wid' AND branch_id='$branch_id' ";
-			$result2=mysql_query($sql2) or die("Error in mysql :".mysql_error());
+			$result2=mysqli_query($connection,$sql2) or die("Error in mysqli :".mysqli_error());
 			
 		}
 		//ward delete end
@@ -356,32 +356,32 @@ function deleteconfirm() // make alert for delete elders details
 			include ("config.php");
 			$branch_id=$_SESSION['branch_id'];
 			$sql1 ="SELECT * FROM ward WHERE branch_id='$branch_id' ORDER BY home_no ASC";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			$row=mysql_fetch_assoc($result);
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			$row=mysqli_fetch_assoc($result);
 			//echo $row['home_no'];
-			if(mysql_num_rows($result)>0)
+			if(mysqli_num_rows($result)>0)
 			{
 							do
 							{
 								$homeno=$row['home_no'];
 							}
-							while($row=mysql_fetch_assoc($result));
+							while($row=mysqli_fetch_assoc($result));
 					$sql2 ="SELECT * FROM ward WHERE branch_id='$branch_id' AND home_no='$homeno' ORDER BY ward_no ASC";
-			        $result2=mysql_query($sql2) or die ("mysql.error:".mysql_error());
-			        $row2=mysql_fetch_assoc($result2);
+			        $result2=mysqli_query($connection,$sql2) or die ("mysqli.error:".mysqli_error());
+			        $row2=mysqli_fetch_assoc($result2);
 					//echo $row2['ward_no'];
-					if(mysql_num_rows($result2)>0)
+					if(mysqli_num_rows($result2)>0)
 			   			{
 							global $wid;
 							
 							
-							if(mysql_num_rows($result2)<5)
+							if(mysqli_num_rows($result2)<5)
 			   				{
 								do
 								{
 									$wid=$row2['ward_no'];
 								}
-								while($row2=mysql_fetch_assoc($result2));
+								while($row2=mysqli_fetch_assoc($result2));
 								$k=(string)$wid;
 								$wid=++$k;
 								$hid=$homeno;
@@ -467,8 +467,8 @@ function deleteconfirm() // make alert for delete elders details
                  <?php 
 				 $branch_id=$_SESSION['branch_id'];
 		  		$sql3 ="SELECT *  FROM staff WHERE branch_id='$branch_id' ";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
-          		$row3=mysql_fetch_assoc($result3);
+				$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
+          		$row3=mysqli_fetch_assoc($result3);
           ?>
           <div class="control-group">
             <label class="control-label" for="typeahead">Staff Name</label>
@@ -479,14 +479,14 @@ function deleteconfirm() // make alert for delete elders details
 									do
 									{
 										$sql4="SELECT *  FROM user WHERE user_id='$row3[user_id]' AND usertype='ward-incharge' ";
-				                          $result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-          		                         $row4=mysql_fetch_assoc($result4);
+				                          $result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+          		                         $row4=mysqli_fetch_assoc($result4);
 										  $sql6="SELECT *  FROM ward WHERE incharge='$row4[user_id]' ";
-				                          $result6=mysql_query($sql6) or die ("mysql.error:".mysql_error());
-          		                         $row6=mysql_fetch_assoc($result6);
+				                          $result6=mysqli_query($connection,$sql6) or die ("mysqli.error:".mysqli_error());
+          		                         $row6=mysqli_fetch_assoc($result6);
 										 $sql5="SELECT *  FROM staff WHERE user_id='$row4[user_id]' ";
-				                          $result5=mysql_query($sql5) or die ("mysql.error:".mysql_error());
-          		                         $row5=mysql_fetch_assoc($result5);
+				                          $result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysqli_error());
+          		                         $row5=mysqli_fetch_assoc($result5);
 										if($row6['incharge']==$row4['user_id'])
 										 {
 										 }
@@ -495,7 +495,7 @@ function deleteconfirm() // make alert for delete elders details
 										echo "<option value=".$row4['user_id'].">".$row5['name']."</option>";
 										 }
 									}
-									while($row3=mysql_fetch_assoc($result3));
+									while($row3=mysqli_fetch_assoc($result3));
 									?>										
 								 </select>
             </div>
@@ -520,8 +520,8 @@ function deleteconfirm() // make alert for delete elders details
                               <?php
                               $branch_id=$_SESSION['branch_id'];
 					$sql4 ="SELECT *  FROM branch WHERE branch_id='$branch_id'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4);
 				?>
           
           <label class="control-label" for="typeahead">Branch Name </label>

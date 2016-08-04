@@ -385,8 +385,8 @@ elseif(($_GET['option']=="view"))
 								{
 									//$sql2="SELECT * FROM branch WHERE branch_id='$bid'";
 								}
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$nid=$row['news_id'];
 							?>

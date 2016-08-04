@@ -77,20 +77,20 @@ if(isset($_POST['save']))
 		
 		$sql= "INSERT INTO sponsor(user_id,address,country,name,contact_no,date,photo) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_userid'])."',
-						'".mysql_real_escape_string($_POST['txt_address'])."',
-						'".mysql_real_escape_string($_POST['txt_country'])."',
-						'".mysql_real_escape_string($_POST['txt_name'])."',
-						'".mysql_real_escape_string($_POST['txt_contactno'])."',
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($_FILES["img_photo"]["name"])."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_userid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_address'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_country'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_name'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_contactno'])."',
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$_FILES["img_photo"]["name"])."'
 						)";
 		
 		$sql2 = "INSERT INTO user(user_id,password,usertype) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_userid'])."',
-						'".mysql_real_escape_string($_POST['txt_pass'])."',
-						'".mysql_real_escape_string('pending')."')";
+						'".mysqli_real_escape_string($connection,$_POST['txt_userid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_pass'])."',
+						'".mysqli_real_escape_string('pending')."')";
 						$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
 		
 												
@@ -105,7 +105,7 @@ if(isset($_POST['save']))
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 	
 	}

@@ -48,19 +48,19 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' || $_SESSION[
 		
 		$sql= "INSERT INTO medicine(admission_no,date,time,tablet,remarks,user_id) 
 						VALUES(
-						'".mysql_real_escape_string($aid)."',
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($time)."',
-						'".mysql_real_escape_string($_POST['txt_tablet'])."',
-						'".mysql_real_escape_string($_POST['txt_remarks'])."',
-						'".mysql_real_escape_string($row5['user_id'])."'
+						'".mysqli_real_escape_string($connection,$aid)."',
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$time)."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_tablet'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_remarks'])."',
+						'".mysqli_real_escape_string($connection,$row5['user_id'])."'
 						)";
 		
 		
 		
 		
 												
-				$result=mysql_query($sql) or die("Error in sql ".mysql_error());
+				$result=mysqli_query($connection,$sql) or die("Error in sql ".mysqli_error());
 					if($result)
 						{
 							
@@ -70,7 +70,7 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' || $_SESSION[
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 	
 	}
@@ -96,16 +96,16 @@ if(isset($_SESSION['username']) && ($_SESSION['usertype']=='admin' || $_SESSION[
 		
 		
 		$sql="UPDATE medicine SET 
-							admission_no='".mysql_real_escape_string($row6['admission_no'])."',
-							date='".mysql_real_escape_string($date)."',
-						    time='".mysql_real_escape_string($time)."',
-							tablet='".mysql_real_escape_string($_POST['txt_tablet'])."',
-								remarks='".mysql_real_escape_string($_POST['txt_remarks'])."',
-							user_id='".mysql_real_escape_string($row5['user_id'])."'
+							admission_no='".mysqli_real_escape_string($connection,$row6['admission_no'])."',
+							date='".mysqli_real_escape_string($connection,$date)."',
+						    time='".mysqli_real_escape_string($connection,$time)."',
+							tablet='".mysqli_real_escape_string($connection,$_POST['txt_tablet'])."',
+								remarks='".mysqli_real_escape_string($connection,$_POST['txt_remarks'])."',
+							user_id='".mysqli_real_escape_string($connection,$row5['user_id'])."'
 							
 													
 						WHERE admission_no='$row6[admission_no]' AND date='$did' AND  time='$tid'";
-			$result=mysql_query($sql);
+			$result=mysqli_query($sql);
 		
 			
 										
@@ -375,9 +375,9 @@ function deleteconfirm() // make alert for delete elders details
 											while($row5=mysqli_fetch_assoc($result5));
 										
 									}
-									while($row7=mysql_fetch_assoc($result7));
+									while($row7=mysqli_fetch_assoc($result7));
 								}
-								while($row6=mysql_fetch_assoc($result6));
+								while($row6=mysqli_fetch_assoc($result6));
 									echo " </select>";
 									?>										
 								 

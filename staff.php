@@ -46,8 +46,8 @@ function password()
 		else
 		{
 			$sql8 ="SELECT *  FROM branch WHERE branch_name='$_POST[txt_branchid]'";
-				$result8=mysql_query($sql8) or die ("mysql.error:".mysql_error());
-				$row8=mysql_fetch_assoc($result8);
+				$result8=mysqli_query($connection,$sql8) or die ("mysqli.error:".mysqli_error());
+				$row8=mysqli_fetch_assoc($result8);
 				$barnchid=$row8['branch_id'];
 		}
 		
@@ -70,28 +70,28 @@ function password()
 					
 					$sql2 = "INSERT INTO user(user_id,password,usertype) 
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_staffid'])."',
-						'".mysql_real_escape_string($_POST['txt_pass'])."',
-						'".mysql_real_escape_string($_POST['txt_usertype'])."')";
+						'".mysqli_real_escape_string($connection,$_POST['txt_staffid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_pass'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_usertype'])."')";
 						
 					$sql = "INSERT INTO staff(user_id,title,name,staff_designation,address,contact_no,nic_no,email_id,dob,branch_id,basic_salary,photo)
 						VALUES(
-						'".mysql_real_escape_string($_POST['txt_staffid'])."',
-						'".mysql_real_escape_string($_POST['txt_title'])."',
-						'".mysql_real_escape_string($_POST['txt_name'])."',
-						'".mysql_real_escape_string($_POST['txt_designation'])."',
-						'".mysql_real_escape_string($_POST['txt_address'])."',
-						'".mysql_real_escape_string($_POST['txt_contactno'])."',
-						'".mysql_real_escape_string($_POST['txt_nicno'])."',
-						'".mysql_real_escape_string($_POST['txt_email'])."',
-						'".mysql_real_escape_string($date)."',
-						'".mysql_real_escape_string($barnchid)."',
-						'".mysql_real_escape_string($_POST['txt_bsalary'])."',
-						'".mysql_real_escape_string($_FILES["img_photo"]["name"])."'
+						'".mysqli_real_escape_string($connection,$_POST['txt_staffid'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_title'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_name'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_designation'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_address'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_contactno'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_nicno'])."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_email'])."',
+						'".mysqli_real_escape_string($connection,$date)."',
+						'".mysqli_real_escape_string($connection,$barnchid)."',
+						'".mysqli_real_escape_string($connection,$_POST['txt_bsalary'])."',
+						'".mysqli_real_escape_string($connection,$_FILES["img_photo"]["name"])."'
 						)";
 						
-						$result2=mysql_query($sql2) or die("Error in sql2 ".mysql_error());
-						$result=mysql_query($sql) or die("Error in sql ".mysql_error());
+						$result2=mysqli_query($connection,$sql2) or die("Error in sql2 ".mysqli_error());
+						$result=mysqli_query($connection,$sql) or die("Error in sql ".mysqli_error());
 						
 						if($result and $result2)
 						{
@@ -102,7 +102,7 @@ function password()
 						}
 						else
 						{
-							echo mysql_error();
+							echo mysqli_error();
 						}
 				}
 				
@@ -583,10 +583,10 @@ function deleteconfirm() // make alert for delete elders details
 		{
 			include ("config.php");
 			$sql1 ="SELECT user_id FROM staff ORDER BY user_id ASC";
-			$result=mysql_query($sql1) or die ("mysql.error:".mysql_error());
-			if(mysql_num_rows($result)>0)
+			$result=mysqli_query($connection,$sql1) or die ("mysqli.error:".mysqli_error());
+			if(mysqli_num_rows($result)>0)
 			{
-				while($row=mysql_fetch_assoc($result))
+				while($row=mysqli_fetch_assoc($result))
 				{
 					$Staff_No=$row['user_id'];
 				}
@@ -742,7 +742,7 @@ function deleteconfirm() // make alert for delete elders details
          
                    <?php 
 		  		$sql3 ="SELECT *  FROM branch";
-				$result3=mysql_query($sql3) or die ("mysql.error:".mysql_error());
+				$result3=mysqli_query($sql3) or die ("mysqli.error:".mysqli_error());
           		
           ?>
           <div class="control-group">
@@ -754,8 +754,8 @@ function deleteconfirm() // make alert for delete elders details
 				{
 					$branch_id=$_SESSION['branch_id'];
 					$sql4 ="SELECT *  FROM branch WHERE branch_id='$branch_id'";
-				$result4=mysql_query($sql4) or die ("mysql.error:".mysql_error());
-				$row4=mysql_fetch_assoc($result4);
+				$result4=mysqli_query($connection,$sql4) or die ("mysqli.error:".mysqli_error());
+				$row4=mysqli_fetch_assoc($result4);
 					?>
 					         <input type="text" name="txt_branchid" class="span8 typeahead" id="txt_branchid" readonly value="<?php echo $row4['branch_name'];?>">
 			<?php
@@ -767,7 +767,7 @@ function deleteconfirm() // make alert for delete elders details
               					<select required name="txt_branchid" class="span8 typeahead" id="txt_branchid"  data-rel="chosen">
 								<?php 
 								
-									while($row=mysql_fetch_assoc($result3))
+									while($row=mysqli_fetch_assoc($result3))
 									{
 										echo "<option value=".$row['branch_id'].">".$row['branch_name']."</option>";
 									}
@@ -1072,14 +1072,14 @@ elseif(($_GET['option']=="past"))
 								{
 									$sql2="SELECT * FROM staff WHERE branch_id='$branch_id'";
 								}
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									$bid=$row['branch_id'];
 									$sql9 = "SELECT * FROM staff WHERE staff_designation = '$row[staff_designation]'";
 
-									$result9 = mysql_query($sql9) or die('Query failed. ' . mysql_error());
-									$row9 = mysql_fetch_assoc($result9);
+									$result9 = mysqli_query($connection,$sql9) or die('Query failed. ' . mysqli_error());
+									$row9 = mysqli_fetch_assoc($result9);
 									if($row9['staff_designation']!="Delete")
 									{
 										
@@ -1089,8 +1089,8 @@ elseif(($_GET['option']=="past"))
 							?>
 							<tr><td class="center" align="center"><?php echo $row['user_id']; ?></td><td class="center" align="center"><?php echo $row['name']; ?></td><td class="center" align="center"><?php echo $row['staff_designation']; ?></td><td class="center" align="center"><?php 
 								$sql3="SELECT * FROM branch WHERE branch_id='$bid'";
-								$result3=mysql_query($sql3);
-								$row3=mysql_fetch_assoc($result3);
+								$result3=mysqli_query($connection,$sql3);
+								$row3=mysqli_fetch_assoc($result3);
 								$bname=$row3['branch_name'];
 							echo $bname; ?></td>
                              <?php

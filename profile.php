@@ -137,7 +137,7 @@ $sql1="SELECT * FROM staff WHERE user_id='$username'";
 			
 			
 			}
-			$result = mysql_query($sql2) or die('Query failed, '. mysql_error());
+			$result = mysqli_query($connection,$sql2) or die('Query failed, '. mysqli_error());
 			
 			
 		if ($result)
