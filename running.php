@@ -486,8 +486,8 @@ elseif(($_GET['option']=="view"))
 									$sql2="SELECT * FROM running_chart WHERE branch_id='$branch_id'";
 								}
 						
-								$result=mysql_query($sql2);
-								while($row=mysql_fetch_assoc($result))
+								$result=mysqli_query($connection,$sql2);
+								while($row=mysqli_fetch_assoc($result))
 								{
 									
 							
