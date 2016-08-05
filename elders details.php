@@ -227,8 +227,6 @@ $utype=$_SESSION['usertype'];
 		
 		
         
-
-
 	if(isset($_POST['savechanges']))//coding start for edit/update of elders details.
 	{
 		
@@ -851,9 +849,9 @@ function deleteconfirm() // make alert for delete elders details
 										do
 										{
 										$sql7 ="SELECT *  FROM elders WHERE branch_id='$branch_id' AND home_no='$row5[home_no]' AND ward_no='$row8[ward_no]' AND status='Live'";
-										$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
+										$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error($connection));
 										$row7=mysqli_fetch_assoc($result7);
-										if(mysql_num_rows($result7)==5)
+										if(mysqli_num_rows($result7)==5)
 										{
 										}
 										else
@@ -936,7 +934,7 @@ function deleteconfirm() // make alert for delete elders details
 											 }
 										}
 									}
-									while($row5=mysql_fetch_assoc($result5));
+									while($row5=mysqli_fetch_assoc($result5));
 									echo "</select>";
 								}
 								else if($_SESSION['usertype']=="admin")
@@ -967,7 +965,7 @@ function deleteconfirm() // make alert for delete elders details
 											 }
 										}
 									}
-									while($row5=mysql_fetch_assoc($result5));
+									while($row5=mysqli_fetch_assoc($result5));
 									echo "</select>";
 								}
 									?>
@@ -996,8 +994,8 @@ function deleteconfirm() // make alert for delete elders details
 				}
 									
 									$sql5 ="SELECT no_of_beds  FROM ward WHERE branch_id='$branch_id' AND home_no='$homeselect' AND ward_no='$wardselect'";
-									$result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysql_error());
-									$row5=mysql_fetch_assoc($result5);
+									$result5=mysqli_query($connection,$sql5) or die ("mysqli.error:".mysql_error($connection));
+									$row5=mysqli_fetch_assoc($result5);
 									$numofbeds=$row5['no_of_beds'];
 									
 									echo "<select required name='txt_bedno'  id='txt_bedno' class='input-large focused' data-rel='chosen'>";
@@ -1007,8 +1005,8 @@ function deleteconfirm() // make alert for delete elders details
 										
 										$sql7 ="SELECT *  FROM elders WHERE branch_id='$branch_id' AND home_no='$homeselect' AND ward_no='$wardselect' AND status='Live'";
 										$result7=mysqli_query($connection,$sql7) or die ("mysqli.error:".mysqli_error());
-										$row7=mysql_fetch_assoc($result7);
-										$noofrows=mysql_num_rows($result7);
+										$row7=mysqli_fetch_assoc($result7);
+										$noofrows=mysqli_num_rows($result7);
 										$bed=array();
 										$b=0;
 										do
@@ -1016,7 +1014,7 @@ function deleteconfirm() // make alert for delete elders details
 											$bed[$b]=$row7['bed_no'];
 											$b++;
 										}
-										while($row7=mysql_fetch_assoc($result7));
+										while($row7=mysqli_fetch_assoc($result7));
 										for($c=1;$c<=$numofbeds;$c++)
 										{
 											$beds=0;
@@ -1331,7 +1329,6 @@ elseif(($_GET['option']=="view"))
 	
 	 
 	}
-
 ?>
 </div>
 
@@ -1346,5 +1343,4 @@ else
 {
 header("location:index.php");	
 }
-
 ?>
