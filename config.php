@@ -8,7 +8,7 @@
   if (!$connection) {
      die ("A connection to the server could not be established!"); 
   }
-    $result=mysqli_select_db($connection,"eldershome")or die("cannot select DB");//select database
+    $result=mysqli_select_db($connection,"pillayar")or die("cannot select DB");//select database
   
   if (! $result) {
      die ("database could not be selected");

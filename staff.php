@@ -46,7 +46,7 @@ function password()
 		else
 		{
 			$sql8 ="SELECT *  FROM branch WHERE branch_name='$_POST[txt_branchid]'";
-				$result8=mysqli_query($connection,$sql8) or die ("mysqli.error:".mysqli_error());
+				$result8=mysqli_query($connection,$sql8) or die ("mysqli.error:".mysqli_error($connection));
 				$row8=mysqli_fetch_assoc($result8);
 				$barnchid=$row8['branch_id'];
 		}
@@ -742,7 +742,7 @@ function deleteconfirm() // make alert for delete elders details
          
                    <?php 
 		  		$sql3 ="SELECT *  FROM branch";
-				$result3=mysqli_query($sql3) or die ("mysqli.error:".mysqli_error());
+				$result3=mysqli_query($connection,$sql3) or die ("mysqli.error:".mysqli_error());
           		
           ?>
           <div class="control-group">
