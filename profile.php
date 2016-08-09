@@ -1,507 +1,129 @@
-	<script>
-function nicnumber()
-{
-var nicno = /^[0-9]{9}[vVxX]$/;
-	if(document.getElementById("txtnicno").value=="")
-	{
-	}
-	else
-	{
-		if( document.getElementById("txtnicno").value.match(nicno))
-		{
-			return true;
-		}
-		else
-		{
-			alert("Enter 10 digit nic number");
-			document.getElementById("txtnicno").value="";		
-			return false;
-		}
-	}	 
-}
-</script>
-<SCRIPT language=Javascript>
-       <!--
-       function isNumberKey(evt)
-       {
-          var charCode = (evt.which) ? evt.which : event.keyCode;
-          if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
-             return false;
-
-          return true;
-       }
-       //-->
-    </SCRIPT>
-	
-<!--phone number-->	
-	
-	<script>
-function phonenumber()
-{
-var phoneno = /^\d{10}$/;
-	if(document.getElementById("tpnum").value=="")
-	{
-	}
-	else
-	{
-		if( document.getElementById("tpnum").value.match(phoneno))
-		{
-			return true;
-		}
-		else
-		{
-			alert("Enter 10 digit hand phone number");
-			document.getElementById("tpnum").value="";		
-			return false;
-		}
-	}	 
-}
-</script>
-<script language="Javascript">
-// function for password
-function password()
-{
-	var str = document.getElementById("txtnewpassword").value;
-	var res = str.length; 
-	if(res>6)
-	{
-		return true;
-	}
-	else
-	{
-			alert("enter more than 6 character password");
-			document.getElementById("txtnewpassword").value="";		
-			return false;
-	}
-	
-}
-</script>
-
 <?php
-include "config.php";
-//session_start();
-$username=$_SESSION['username'];
-$usertype=$_SESSION['usertype'];
-$msg="";
+	require 'core/int.php';
+	include 'include/login.php';
+	
+	if(isset($_GET['u'])=== false && empty ($_GET['u'])=== true){
+		header("Location:index.php");
+		exit();
+	}else{
+?>	
 
-if($usertype=="admin")
-{
-	$page="adminhome.php";
-}
-elseif($usertype=="manager")
-{
-	$page="managerhome.php";
-}
-elseif($usertype=="clerk")
-{
-	$page="clerkhome.php";
-}
-elseif($usertype=="ward-incharge")
-{
-	$page="wardincharhome.php";
-}
-elseif($usertype=="sponsor")
-{
-	$page="sponsorhome.php";
-}
-elseif($usertype=="doctor")
-{
-	$page="doctorhome.php";
-}
-
-
-$sql1="SELECT * FROM staff WHERE user_id='$username'";
-		$result=mysqli_query($connection,$sql1) or die("Error in mysqli:".mysqli_error());
-		$row=mysqli_fetch_assoc($result);
-		
-		if(isset($_POST['editsubmit']))
-		{
-			//if($table=='staff')
+<?php	
+	include 'include/overall/asideprofilepagetop.php';
+	$userName = preg_replace('#[^A-Za-z0-9]#i', '', $_GET['u']);
 			
-			{
-				$staffid= $_POST ['txtstaffid'];
-				$dname= $_POST ['txtstaffname'];
-				$address= $_POST ['txtaddress'];
-				$nicno=  $_POST ['txtnicno'];
-				$designation = $_POST ['txtdesignation'];
-				$tpno= $_POST ['txttelephonenumber'];
-				$email = $_POST ['txtemail'];
-				
-				$sql2= "UPDATE staff
-				SET name='$dname',
-				address = '$address',
-				nic_no ='$nicno',
-				contact_no = '$tpno',
-				email_id = '$email'
-				WHERE user_id = '$staffid'";
+	if(userExits($userName)=== true){
 			
+		$sql = "SELECT *
+		FROM user_information, user_contact, user_login
+		WHERE user_information.id = user_contact.id
+		AND user_contact.id = user_login.id
+		AND user_login.userName =  '$userName'
+		AND user_login.accountActive = 1";
+		$query = mysqli_query($db, $sql);				
 			
-			}
-			$result = mysqli_query($connection,$sql2) or die('Query failed, '. mysqli_error());
-			
-			
-		if ($result)
-			{
-				echo '<table bgcolor="#FF0000"><tr><td><p align="center"><strong><font color="#FF0000">Your details update successfully</font></strong></p></td></tr></table>';
-				echo '<p align="center"><img border="0" src="photos/sucess.jpg" width="100" height="50"></p>';
-				echo '<p align="center">&lt;&lt;&lt;&lt; <a href="'.$page.'?pg=profile.php&option=view">Go Back</a> &gt;&gt;&gt;&gt;</p>';
-				//include 'successadmin.php';
-				
-			}
-			else 
-			{
-				die ( mysql_error () );
-			}
-Exit;		
-}
-elseif(isset($_POST['changesubmit']))
-	{
-		$newpass=$_POST['txtnewpassword'];
-		$oldpass=$_POST['txtoldpassword'];
-		$cnewpass=$_POST['txtcnewpassword'];
-		if($newpass==$cnewpass)
-		{
-			$sql1="SELECT password FROM user WHERE user_id='$username'";
-			$result=mysql_query($sql1) or die("error in my sql".mysql_error());
-			$row=mysql_fetch_assoc($result);
-			if($oldpass==$row['password'])
-			{
-				$sql2= "UPDATE user
-				SET password='$newpass'
-				WHERE user_id = '$username'";
-				$result=mysql_query($sql2);
-				if ($result)
-				{
-					echo '<table bgcolor="#FF0000"><tr align="center" ><td><p align="center"><strong><font color="#FF0000">Your password changed successfully</font></strong></p></td></tr></table>';
-					echo '<p align="center"><img border="0" src="photos/sucess.jpg" width="100" height="50"></p>';
-					echo '<p align="center">&lt;&lt;&lt;&lt; <a href="'.$page.'?pg=profile.php&option=view">Go Back</a> &gt;&gt;&gt;&gt;</p>';
-					exit;
-				}
-				else 
-				{
-					die ( mysql_error () );
-				}
-				exit;
-				
-			}
-			else
-			{
-				$_GET['option']=="change";
-				$msg="Your current password error";
-			}
+		while($row = mysqli_fetch_array($query, MYSQLI_ASSOC)){
+			$dateTime = $row['registerDate'];	
+			$convertedTime = convert_datetime($dateTime);
+			$when = makeAgo($convertedTime);
+			$id = $row['id'];
+			$userName = $row['userName'];
+			$userType = $row['userType'];
+			$firstName = $row['firstName'];
+			$userName = $row['userName'];
+			$privacy = $row['privacy'];
+			$lastName = $row['lastName'];
+			$dob = $row['dob'];
+			$gender = $row['gender'];
+			$weight = $row['weight'];
+			$residenceNo = $row['residenceNo'];
+			$profile = $row['profile'];
+			$district = $row['district'];
+			$bloodGroup = $row['bloodGroup'];
+			$mobileNo = $row['mobileNo'];
+			$email = $row['email'];
+			$address = $row['address'];
 		}
-		else
-		{
-			$_GET['option']=="change";
-			$msg="Password mismatch with new password";
-		}
-	}
-				
-				
-				
 
+		if(loggedIn()===true && userExits($userName)=== true && $session_userId!= $id){
+			echo '<button style="float:right;margin:10px;" id="pmopen"><b>Private Message</b></button></br>';
+		}
+		if(loggedIn()===true && $session_userId == $id){
+			echo '<img src="images/print_img.png" title="Print" style="float:right; margin:10px; padding-right:5px;cursor:pointer;"onclick="printContent(\'print_profile\');" /></br>';
+		}
+		if(loggedIn()===true){
+			echo '</br><hr style="border:1px dashed #FFE4E1" >';}
+		else{
+			echo '<h5 style="float:right;margin:10px;color:#4B0082;">[ Log in to send message to '.$firstName.' ]</h5></br></br>';
+			echo '<hr style="border:1px dashed #FFF5EE">';
+		}
 ?>
 
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Untitled Document</title>
-
-</head>
-
-<body>
-
-
-
-<div>
-	<ul class="breadcrumb">
-		<li>
-		<h4><i class="icon-user">Profile</i></h4>
-
-        </li>
-	</ul>
-</div>
-
-<!--/new entry design begin-->
-<?php
-	if(isset($_GET['option']))
-	{
-		if($_GET['option']=="view")
-		{
-			
-			?>
-        
-<div class="row-fluid sortable">
-  <div class="box span12">
-    <div class="box-header well" data-original-title>
-      <a class="btn btn-primary" href="<?php echo $page; ?>?pg=profile.php&option=edit"><i class="icon icon-edit icon-white"></i> Edit Profile </a> 
-      <a class="btn btn-primary" href="<?php echo $page; ?>?pg=profile.php&option=change"><i class="icon icon-edit icon-white"></i> Change Password </a>           
-    </div>
-    <div class="box-content">
-      <form class="form-horizontal" action="" method="post">
-        <fieldset>
-          <table width="100%"><tr><td>
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Staff ID </label>
-            <div class="controls">
- <input type="text" class="input-xlarge focused" disabled="" id="typeahead"  name="txtstaffid" value="<?php echo $row['user_id']; ?>" name="txtstaffid">
-              
-            </div>
-          </div>
-          
-                      <div class="control-group">
-            <label class="control-label" for="typeahead">Staff Name </label>
-            <div class="controls">
-              <input  name="txtstaffname" type="text"  disabled="" value="<?php echo $row['name']; ?>" required class="input-xlarge focused" id="typeahead" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Address </label>
-            <div class="controls">
-              <input  name="txtaddress" type="text" disabled class="input-xlarge focused" id="typeahead" value="<?php echo $row['address']; ?>" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label" for="typeahead">NIC No </label>
-            <div class="controls">
-              <input  name="txtnicno" type="text" disabled class="input-xlarge focused" id="typeahead" value="<?php echo $row['nic_no']; ?>" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Designation </label>
-            <div class="controls">
-              <input  name="txtdesignation" type="text" disabled class="input-xlarge focused" readonly id="typeahead" value="<?php echo $row['staff_designation']; ?>" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          </td><td>
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Telephone Number </label>
-            <div class="controls">
-              <input  name="txttelephonenumber" type="text" disabled class="input-xlarge focused" id="typeahead" value="<?php echo $row['contact_no']; ?>" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Email </label>
-            <div class="controls">
-              <input  name="txtemail" type="text" disabled class="input-xlarge focused" id="email" value="<?php echo $row['email_id']; ?>" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Date of Birth </label>
-            <div class="controls">
-              <input  name="txtUserName" type="text" disabled class="input-xlarge focused" id="UserName" value="<?php echo $row['dob']; ?>" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-                    
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Branch Code </label>
-            <div class="controls">
-              <input  name="txtBranchCode" type="text" disabled  class="input-xlarge focused" id="typeahead"  value="<?php echo $row['branch_id']; ?>" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          <div class="control-group">
-								<label class="control-label" for="appendedPrependedInput">Salary</label>
-								<div class="controls">
-								  <div class="input-prepend input-append">
-									<span class="add-on">Rs</span><input name="txtsalary" type="text" disabled id="appendedPrependedInput" value="<?php echo $row['basic_salary']; ?>" size="16" ><span class="add-on">.00</span>
-								  </div>
-								</div>
-							  </div>
-          </td></tr></table>
-          
-                 </fieldset>
-      </form>
-    </div>
-  </div>
-  <!--/span-->
-</div>
-<?php
-	}
-	elseif($_GET['option']=="edit")
-	{
-		?>
-        
-<div class="row-fluid sortable">
-  <div class="box span12">
-    <div class="box-header well" data-original-title>
-      <a class="btn btn-primary" href="<?php echo $page; ?>?pg=profile.php&option=edit"><i class="icon icon-edit icon-white"></i> Edit Profile </a> 
-      <a class="btn btn-primary" href="<?php echo $page; ?>?pg=profile.php&option=change"><i class="icon icon-edit icon-white"></i> Change Password </a>                
-    </div>
-    <div class="box-content">
-      <form class="form-horizontal" action="" method="post">
-        <fieldset>
-          <table width="100%"><tr><td>
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Staff ID </label>
-            <div class="controls">
- <input type="text" class="input-xlarge focused" readonly id="typeahead"  name="txtstaffid" value="<?php echo $row['user_id']; ?>" name="txtstaffid" >
-              
-            </div>
-          </div>
-          
-                      <div class="control-group">
-            <label class="control-label" for="typeahead">Staff Name </label>
-            <div class="controls">
-              <input  name="txtstaffname" type="text" value="<?php echo $row['name']; ?>" required class="input-xlarge focused"  onkeypress="return isTextKey(event)" id="typeahead" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Address </label>
-            <div class="controls">
-              <input type="text" value="<?php echo $row['address']; ?>" class="input-xlarge focused" required id="typeahead"  name="txtaddress" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label" for="typeahead">NIC No </label>
-            <div class="controls">
-              <input type="text" value="<?php echo $row['nic_no']; ?>" class="input-xlarge focused" readonly id="typeahead" onkeypress="return isNumberKey(event)" name="txtnicno" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Designation </label>
-            <div class="controls">
-              <input  name="txtdesignation" type="text" class="input-xlarge focused" id="typeahead" readonly  value="<?php echo $row['staff_designation']; ?>" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          </td><td>
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Telephone Number </label>
-            <div class="controls">
-              <input type="text" value="<?php echo $row['contact_no']; ?>" class="input-xlarge focused" required id="typeahead" placeholder="Ex: 07xxxxxxxx" onkeypress="return isNumberKey(event)" onblur="phonenumber()" name="txttelephonenumber" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Email </label>
-            <div class="controls">
-              <input type="text" value="<?php echo $row['email_id']; ?>" class="input-xlarge focused" id="email" required  name="txtemail" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Date of Birth </label>
-            <div class="controls">
-              <input  name="txtUserName" type="text" readonly class="input-xlarge focused" id="UserName" value="<?php echo $row['dob']; ?>" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          
-                    
-          <div class="control-group">
-            <label class="control-label" for="typeahead">Branch Code </label>
-            <div class="controls">
-              <input  name="txtBranchCode" type="text" readonly  class="input-xlarge focused" id="typeahead"  value="<?php echo $row['branch_id']; ?>" data-provide="typeahead" data-items="4">
-              
-            </div>
-          </div>
-          <div class="control-group">
-								<label class="control-label" for="appendedPrependedInput">Salary</label>
-
-								<div class="controls">
-								  <div class="input-prepend input-append">
-									<span class="add-on">Rs</span><input name="txtsalary" type="text" readonly id="appendedPrependedInput" value="<?php echo $row['basic_salary']; ?>" size="16" ><span class="add-on">.00</span>
-								  </div>
-								</div>
-							  </div>
-          
-          </td></tr></table>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary" name="editsubmit">Save changes</button>
-             <a href="<?php echo $page; ?>?pg=profile.php&option=view"<button type="button" class="btn btn-primary" name="cancel">Cancel</button></a>
-
-           </div>
-        	</a>
-        </fieldset>
-      </form>
-    </div>
-  </div>
-  <!--/span-->
-</div>
-<?php
-		}
-		elseif($_GET['option']=="change")
-		{
-		?>
-        <div class="row-fluid sortable">
-  		<div class="box span12">
-    	<div class="box-header well" data-original-title>
-      			 <a class="btn btn-primary" href="<?php echo $page; ?>?pg=profile.php&option=edit"><i class="icon icon-edit icon-white"></i> Edit Profile </a> 
-      			<a class="btn btn-primary" href="<?php echo $page; ?>?pg=profile.php&option=change"><i class="icon icon-edit icon-white"></i> Change Password </a>        </div>
-    	<div class="box-content">
-        
-        <?php
-        	//if(isset($_GET['passmissmatch']))
-			//{
-				echo '<font color="#FF0000"><b>'.$msg.'</b></font>';
-			//}
-			?>
-        
-        <form class="form-horizontal" action="" method="post">
-        <fieldset>
-		<div class="control-group">
-            <label class="control-label" for="typeahead">Current Password </label>
-            <div class="controls">
-              <input type="password" class="input-xlarge focused" id="typeahead"  name="txtoldpassword" required class="input-large span10">
-              
-            </div>
-          </div>
+		</br>
+		<span id="PMStatus"></span>
+		<div class="interactContainers" id="private_message">
+		<form action="javascript:private_mgs();" name="pmForm" id="pmForm" method="post">
+		<font size="+1">Sending Private Message to <strong><em><?php echo "$firstName"; ?></em></strong></font><br /><br />
+		Subject:
+		<input name="pmSubject" id="pmSubject" type="text" maxlength="64" style="width:98%;" />
+		Message:
+		<textarea name="pmTextArea" id="pmTextArea" rows="8" style="width:98%;" ></textarea>
+		  <input name="pm_sender_id" id="pm_sender_id" type="hidden" value="<?php echo $session_userId; ?>" />
+		  <input name="pm_sender_name" id="pm_sender_name" type="hidden" value="<?php echo $userData['firstName']; ?>" />
+		  <input name="pm_rec_id" id="pm_rec_id" type="hidden" value="<?php echo $id; ?>" />
+		  <input name="pm_rec_name" id="pm_rec_name" type="hidden" value="<?php echo $firstName; ?>" />
 		  
-		  <div class="control-group">
-            <label class="control-label" for="typeahead">New Password </label>
-            <div class="controls">
-              <input type="password" class="input-xlarge focused" id="txtnewpassword"  name="txtnewpassword" required class="input-large span10" onBlur="password()">
-              
-            </div>
-          </div>
-		  
-		  <div class="control-group">
-            <label class="control-label" for="typeahead">Confirm Password </label>
-            <div class="controls">
-              <input type="password" class="input-xlarge focused" id="typeahead"  name="txtcnewpassword">
-              
-              
-            </div>
-          </div>
-		  
-		  <div class="form-actions">
-            <button type="submit" class="btn btn-primary" name="changesubmit">Save</button>
-            <a href="<?php echo $page; ?>?pg=profile.php&option=view"<button type="button" class="btn btn-primary" name="cancel">Cancel</button></a>
-          </div>
-		</fieldset>
-        </form>
-        </div>
-        </div>
-        </div>
-        <?php
+		  <br /><input name="pmSubmit" id="pmsubmit" type="submit"  value="Send" /> or <button  id="close1">Close</button>
+		</form>
+		 </div></br>
+<?php
+			echo '<div id="print_profile"><h2>'.$firstName."'s profile</h2></br>";
+			echo '<fieldset class="profile_info">';
+			echo '<legend class="pic"><img src="'.$profile.'" alt="'.$firstName.'\'s profile image" title="'.$firstName.'"/></legend>';
+			echo '<img class="picbig" src="'.$profile.'" />';
+			echo '<p>';
+			echo '<label>Username</label>';
+			echo '<span>'.$userName.'</span></br></br>';
+			echo '<label>User Type</label>';
+			if($userType == 1){echo '<span>Administrator</span></br></br>';}else{echo '<span>User</span></br></br>';}
+			echo '<label>Joined</label>';
+			echo '<span>' .$when.'</span></br></br>';
+			echo '<label>First name</label>';
+			echo '<span>' .$firstName.'</span></br></br>';
+			echo '<label>Last name</label>';
+			echo '<span>' .$lastName.'</span></br></br>';
+			echo '<label>Date of Birth</label>';
+			if($privacy === 'Users' && loggedIn() === false){echo '<span>[You must Login.]</span></br></br>';}
+			else{echo '<span>' .$dob.'</span></br></br>';}
+			echo '<label>Gender</label>';
+			echo '<span>' .$gender.'</span></br></br>';
+			echo '<label>Blood Group</label>';
+			echo '<span>' .$bloodGroup.'</span></br></br>';
+			echo '<label>Weight</label>';
+			echo '<span>' .$weight.'</span></br></br>';
+			echo '<label>Resident Pno</label>';
+			if($privacy === 'Users' && loggedIn() === false){echo '<span>[You must Login.]</span></br></br>';}
+			else{echo '<span>' .$residenceNo.'</span></br></br>';}
+			echo '<label>Mobile no</label>';
+			if($privacy === 'Users' && loggedIn() === false){echo '<span>[You must Login.]</span></br></br>';}
+			else{echo '<span>' .$mobileNo.'</span></br></br>';}
+			echo '<label>Email</label>';
+			if($privacy === 'Users' && loggedIn() === false){echo '<span>[You must Login.]</span></br></br>';}
+			else{echo '<span>' .$email.'</span></br></br>';}
+			echo '<label>Address</label>';
+			echo '<span>' .$address.'</span></br></br>';
+			echo '<label>District</label>';
+			echo '<span>' .$district.'</span></br></br>';
+			echo '</p>';
+			echo '</fieldset></div>';
+			$locationString = $address.'%20'.$district;
+			echo '</br><iframe width="650" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/search?q='.$locationString.'&key=AIzaSyCbnOkIVD3KHjAr1vbFtW0krAMjz858qQs"></iframe>';
+	}else{
+		echo "<p class='errors'>Sorry, the user does not exit.</p>";
 	}
 }
 ?>
-<!--/new entry design end-->
-
-
-</body>
-</html>
+<?php
+include 'include/overall/asideprofilepagebottom.php';
+?>
+				

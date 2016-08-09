@@ -1,0 +1,5 @@
+# Turn Rewrite Engine on
+RewriteEngine on
+
+# Rewrite for profile.php
+RewriteRule ^user/([0-9a-zA-Z]+) profile.php?u=$1 [NC,L]
